@@ -20,5 +20,8 @@
     },
     "devDependencies": {
         "electron": "^36.4.0"
+    },
+    "dependencies": {
+        "twig": "^1.17.1"
     }
 }
