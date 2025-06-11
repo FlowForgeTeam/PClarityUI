@@ -1,0 +1,24 @@
+{
+    "name": "pclarityui",
+    "version": "1.0.0",
+    "description": "User interface for PClarity application developed using Electron.js",
+    "homepage": "https://github.com/FlowForgeTeam/PClarityUI#readme",
+    "bugs": {
+        "url": "https://github.com/FlowForgeTeam/PClarityUI/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/FlowForgeTeam/PClarityUI.git"
+    },
+    "license": "ISC",
+    "author": "Evelina Pyechkurova",
+    "type": "commonjs",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "devDependencies": {
+        "electron": "^36.4.0"
+    }
+}
