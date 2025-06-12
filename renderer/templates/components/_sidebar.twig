@@ -1,0 +1,18 @@
+<div class="sidebar-container">
+    <header class="sidebar-header">
+        <span class="app-logo"></div>
+        {% if sidebarExpanded %}
+            <span class="app-header">PClarity</span>
+        {% endif %}
+    </header>
+    <nav class="sidebar-nav">
+        {% for item in navItems %}
+            {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
+        {% endfor %}
+    </nav>
+    <footer class="sidebar-footer">
+        {% for item in footerItems %}
+            {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
+        {% endfor %}
+    </footer>
+</div>
