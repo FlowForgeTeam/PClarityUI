@@ -1,0 +1,26 @@
+<header>
+    <h1 class="screen-title">{{ title }}</h1>
+
+    {% if has_search_bar %}
+        <div class="search-bar">
+            <input type="text" placeholder="Search programs...">
+            <span class="search-icon"></span>
+        </div>
+
+        <button class="filter-button">
+            <span class="filter-icon"></span>
+            Filter
+        </button>
+
+    {% endif %}
+
+    {% if has_view_modes %}
+        <form class="view-mode-selector">
+            {% for mode in view_modes %}
+                {% set mode_id = 'view-mode-' ~ loop.index %}
+                <input type="radio" name="view-mode" id="{{mode_id}}">
+                <label for="{{mode_id}}">{{mode.icon}}</label>
+            {% endfor %}
+        </form>          
+    {% endif %}
+</header>
