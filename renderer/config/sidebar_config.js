@@ -1,5 +1,5 @@
 const sidebarNavItems = [
-    { icon: 'home', label: 'Home', pageName: 'homepage' },
+    { icon: 'home', label: 'Home', pageName: 'homepage', isActive: true },
     { icon: 'bar-chart', label: 'App statistics', pageName: 'statistics' },
     { icon: 'pie-chart', label: 'System welfare', pageName: 'welfare' },
 ];
