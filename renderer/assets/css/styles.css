@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;1,400&family=Baloo+2:wght@600&display=swap');
+
+
+body {
+    margin: 0;
+    background-color: #181432;
+    font-family: 'Inter', sans-serif;
+}
+
+.sidebar-container {
+    width: 256px;
+    height: 960px;
+    color: white;
+    border-right: 2px solid;
+    border-color: #493073;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 32px;
+    height: 65px;
+    align-items: center;
+}
+
+.sidebar-item {
+    padding: 0 16px;
+    font-size: 16px;
+    width: 208px;
+    height: 40px;
+}

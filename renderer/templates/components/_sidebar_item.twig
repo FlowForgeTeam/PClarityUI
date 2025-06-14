@@ -1,11 +1,11 @@
-<div class="sidebar-nav-item {% if item.isActive %}active{% endif %}"
+<div class="sidebar-item {% if item.isActive %}active{% endif %}"
     data-page="{{ item.pageName }}"
     >
     <span class="nav-icon">
-        {% include "../assets/icons/" ~ item.icon ~ "-icon.svg" %}
+        {% include "../../assets/icons/" ~ item.icon ~ "-icon.svg" %}
     </span>
 
-    {% if isSidebarExpanded %}
+    {% if sidebarExpanded %}
         <span class="nav-label">{{ item.label }}</span>
     {% endif %}
 </div>

@@ -1,20 +1,22 @@
 <div class="sidebar-container">
-    <header class="sidebar-header">
+    <header class="sidebar-header"> 
         <span class="app-logo">
-            {% include "../assets/icons/pclarity-icon.svg" %}
-        </div>
+            {% include "../../assets/icons/pclarity-icon.svg" %}
+        </span>
         {% if sidebarExpanded %}
             <span class="app-header">PClarity</span>
         {% endif %}
     </header>
-    <nav class="sidebar-nav">
-        {% for item in navItems %}
-            {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
-        {% endfor %}
-    </nav>
-    <footer class="sidebar-footer">
-        {% for item in footerItems %}
-            {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
-        {% endfor %}
-    </footer>
+    <div class="sidebar-content">
+        <nav class="sidebar-nav">
+            {% for item in navItems %}
+                {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
+            {% endfor %}
+        </nav>
+        <footer class="sidebar-footer">
+            {% for item in footerItems %}
+                {% include "_sidebar_item.twig" with {item: item, sidebarExpanded: sidebarExpanded} %}
+            {% endfor %}
+        </footer>
+    </div>
 </div>
