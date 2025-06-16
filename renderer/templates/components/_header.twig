@@ -1,29 +1,32 @@
 <header>
+    <div class="header-options">
+        {% if header.hasSearchBar %}
+            {% set ICON_PATH = "../../assets/icons/" %}
+            <div class="search-bar">
+                <span class="search-icon">
+                    {% include ICON_PATH ~ "search-icon.svg" %}
+                </span>
+                <input type="text" placeholder="Search programs...">
+            </div>
+
+            <button class="filter-button">
+                <span class="filter-icon"></span> 
+                {% include ICON_PATH ~ "filter-icon.svg" %} Filter
+            </button>
+
+        {% endif %}
+
+        {# {% if header.hasViewModes %}
+            <form class="view-mode-selector">
+                {% for mode in header.view_modes %}
+                    {% set mode_id = 'view-mode-' ~ loop.index %}
+                    <input type="radio" name="view-mode" id="{{mode_id}}">
+                    <label for="{{mode_id}}">{{mode.icon}}</label>
+                {% endfor %}
+            </form>          
+        {% endif %} #}
+    </div>
+    
+
     <h1 class="screen-title">{{ header.title }}</h1>
-
-    {% if header.has_search_bar %}
-        {% set ICON_PATH = "../../assets/icons" %}
-        <div class="search-bar">
-            <input type="text" placeholder="Search programs...">
-            <span class="search-icon">
-                {% include ICON_PATH ~ "pclarity-icon.svg" %}
-            </span>
-        </div>
-
-        <button class="filter-button">
-            <span class="filter-icon"></span>
-            Filter {% include ICON_PATH ~ "filter-icon.svg" %}
-        </button>
-
-    {% endif %}
-
-    {# {% if header.has_view_modes %}
-        <form class="view-mode-selector">
-            {% for mode in header.view_modes %}
-                {% set mode_id = 'view-mode-' ~ loop.index %}
-                <input type="radio" name="view-mode" id="{{mode_id}}">
-                <label for="{{mode_id}}">{{mode.icon}}</label>
-            {% endfor %}
-        </form>          
-    {% endif %} #}
 </header>

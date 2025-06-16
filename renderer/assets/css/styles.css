@@ -50,4 +50,10 @@ header {
     left: 256px;
     width: 1184px;
     height: 130px;
+    padding: 22px 66px;
+}
+
+.header-options {
+    display: flex;
+    align-items: baseline;
 }
