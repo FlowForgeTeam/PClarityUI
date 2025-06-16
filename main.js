@@ -18,6 +18,8 @@ const createWindow = () => {
         height: mainWindowState.height,
         minWidth: 1280,
         minHeight: 800,
+        maxWidth: 1440,
+        maxHeight: 960,
         show: false,
         webPreferences: {
             preload: path.join(__dirname, PRELOAD_SCRIPT),

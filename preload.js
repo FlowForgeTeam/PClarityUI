@@ -2,6 +2,7 @@ const { contextBridge } = require('electron');
 
 const Twig = require('twig');
 const { sidebarNavItems, sidebarFooterItems } = require('./renderer/config/sidebar_config.js');
+const { headerConfig } = require('./renderer/config/header_config.js');
 const { templatePath } = require('./renderer/js/utils.js');
 
 const routes = {
@@ -21,6 +22,7 @@ contextBridge.exposeInMainWorld('api', {
             ...contextData,
             navItems: sidebarNavItems,
             footerItems: sidebarFooterItems,
+            header: headerConfig[pageName],
             sidebarExpanded: true,
         }
 
