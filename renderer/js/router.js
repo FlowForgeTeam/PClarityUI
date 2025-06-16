@@ -9,18 +9,19 @@ async function loadPage(pageName, contextData = {}) {
     bindSidebarEvents();
 }
 
-async function bindSidebarEvents () {
+function bindSidebarEvents () {
     const sidebarItems = document.querySelectorAll('.sidebar-item');
     sidebarItems.forEach((item) => {
-        item.addEventListener('click', (event) => {
-            let activeItem = document.querySelector('.sidebar-item.active');
-            activeItem.classList.remove('active');
-
+        item.addEventListener('click', async (event) => {
             let currentItem = event.currentTarget;
-            currentItem.classList.add('active');
 
             const pageToLoad = currentItem.getAttribute('data-page');
-            loadPage(pageToLoad);
+            await loadPage(pageToLoad);
+
+            let activeItem = document.querySelector('.sidebar-item.active');
+            activeItem.classList.remove('active');
+            
+            document.querySelector(`[data-page="${pageToLoad}"]`).classList.add('active');
         });
     });
 }
