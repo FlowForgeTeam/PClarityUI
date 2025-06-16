@@ -1,13 +1,8 @@
 const { contextBridge } = require('electron');
 
 const Twig = require('twig');
-const path = require('path');
 const { sidebarNavItems, sidebarFooterItems } = require('./renderer/config/sidebar_config.js');
-
-const PATH_TO_TEMPLATES = path.join(__dirname, 'renderer/templates/pages/');
-const TEMPLATE_EXTENSION = '.twig';
-
-const templatePath = (templateName) => `${PATH_TO_TEMPLATES}${templateName}${TEMPLATE_EXTENSION}`
+const { templatePath } = require('./renderer/js/utils.js');
 
 const routes = {
     homepage: templatePath('homepage'),
