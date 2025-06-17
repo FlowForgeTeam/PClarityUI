@@ -11,8 +11,7 @@ body {
     position: fixed;
     width: 256px;
     height: 960px;
-    border-right: 2px solid;
-    border-color: #493073;
+    border-right: 2px solid #493073;
 }
 
 .sidebar-content {
@@ -51,9 +50,38 @@ header {
     width: 1184px;
     height: 130px;
     padding: 22px 66px;
+    color: #B996FF;
 }
 
 .header-options {
     display: flex;
-    align-items: baseline;
+}
+
+.search-bar {
+    width: 405px;
+    background-color: #181432;
+    border: 1px solid  #493073;
+    border-radius: 8px;
+}
+
+.search-bar input {
+    border: none;
+    width: 341px;
+    height: 24px;
+    color: inherit;
+    background-color: inherit;
+    box-sizing: border-box;
+}
+
+.search-bar input::placeholder {
+    color: inherit;
+}
+
+.filter-button {
+    width: 102px;
+    height: 40px;
+    color: inherit;
+    background-color: inherit;
+    border: 1px solid  #493073;
+    border-radius: 8px;
 }
