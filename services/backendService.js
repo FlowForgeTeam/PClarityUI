@@ -1,9 +1,9 @@
 const path = require('path');
 const { spawn } = require('child_process');
 
-// Determining corrent full-path for cross-platform
 const pythonExecutable = 'python';
-const scriptPath = path.join(__dirname, '..', 'client_for_debugging', 'cmd_client.py');
+
+const scriptPath = path.join(__dirname, '..', '..', 'evelina_version', 'client_for_debugging', 'cmd_client.py');
 
 function callBackend(commandId, extra = {}) {
     return new Promise((resolve, reject) => {
@@ -14,9 +14,13 @@ function callBackend(commandId, extra = {}) {
 
         const args = [scriptPath, JSON.stringify(payload)];
 
-        const subprocess = spawn(pythonExecutable, args);
+        console.log(pythonExecutable, args);
 
-        let output, error = '';
+        const subprocess = spawn(pythonExecutable, args, {
+            cwd: path.join(__dirname, '../../evelina_version')
+        });
+
+        let output = '', error = '';
 
         subprocess.stdout.on('data', (data) => {
             output += data.toString();
@@ -31,6 +35,10 @@ function callBackend(commandId, extra = {}) {
                 reject(error || `Exited with code ${code}`);
             } else {
                 try {
+                    const actual = 'Responce: ';
+                    const index = output.indexOf(actual) + actual.length;
+                    output = output.substring(index);
+                    console.log(output);
                     const result = JSON.parse(output);
                     resolve(result);
                 } catch (err) {

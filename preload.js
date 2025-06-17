@@ -18,7 +18,7 @@ const routes = {
 };
 
 contextBridge.exposeInMainWorld('api', {
-    renderPage: (pageName, contextData = {}) => {
+    renderPage: async (pageName, contextData = {}) => {
         const templatePath = routes[pageName];
 
         const fullContext = {
