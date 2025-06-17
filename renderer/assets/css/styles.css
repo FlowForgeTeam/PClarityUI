@@ -68,11 +68,27 @@
 }
 
 [data-color-theme="light-red"] {
-  --color-bg-primary: #FFFFFF;
+  --color-bg-primary: #F2F2F2;
   --color-bg-secondary: #E7E7E7;
   --color-text-primary: #0E0E0E;
   --color-text-secondary: #2F2F2F;
   --color-accent: #FE4A23;
+}
+
+[data-color-theme="black-pink"] {
+  --color-bg-primary: #0D0B14;
+  --color-bg-secondary: #1E1024;
+  --color-text-primary: #FF3CAC;
+  --color-text-secondary: #FF8FD1;
+  --color-accent: #FF61C9;
+}
+
+[data-color-theme="ultramarine-coral"] {
+  --color-bg-primary: #1C1DFF;
+  --color-bg-secondary: #2C3DF5;
+  --color-text-primary: #FFD2C2;
+  --color-text-secondary: #FFA78A;
+  --color-accent: #FF6F61;
 }
 
 /* ===== BASE STYLES ===== */
@@ -392,4 +408,19 @@ table th {
 
 .icon-header {
   width: 40px;
+}
+
+/* made assumption that all icons must be of primary test color */
+svg {
+  fill: none;
+  stroke: var(--color-text-primary);
+}
+
+.filter-button svg, .search-bar svg {
+  stroke: var(--color-text-secondary);
+}
+
+.app-logo svg {
+  fill: var(--color-text-primary);
+  stroke: none;
 }
