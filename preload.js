@@ -1,9 +1,12 @@
 const { contextBridge } = require('electron');
 
 const Twig = require('twig');
+
 const { sidebarNavItems, sidebarFooterItems } = require('./renderer/config/sidebar_config.js');
 const { headerConfig } = require('./renderer/config/header_config.js');
+
 const { templatePath } = require('./renderer/js/utils.js');
+const { callBackend } = require('./services/backendService.js');
 
 const routes = {
     homepage: templatePath('homepage'),
@@ -36,5 +39,9 @@ contextBridge.exposeInMainWorld('api', {
                 }
             });
         });
+    },
+
+    getReport: async () => {
+        return await callBackend(0, {});
     }
 });

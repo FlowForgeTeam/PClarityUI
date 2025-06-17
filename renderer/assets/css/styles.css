@@ -51,6 +51,30 @@
   --transition-normal: 0.3s ease;
 }
 
+[data-color-theme="default"] {
+  --color-bg-primary: #181432;
+  --color-bg-secondary: #493073;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B996FF;
+  --color-accent: #7649CF;
+}
+
+[data-color-theme="dark-purple"] {
+  --color-bg-primary: #151515;
+  --color-bg-secondary: #1F1741;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B996FF;
+  --color-accent: #620EC9;
+}
+
+[data-color-theme="light-red"] {
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #E7E7E7;
+  --color-text-primary: #0E0E0E;
+  --color-text-secondary: #2F2F2F;
+  --color-accent: #FE4A23;
+}
+
 /* ===== BASE STYLES ===== */
 * {
   box-sizing: border-box;
