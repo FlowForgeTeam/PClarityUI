@@ -1,30 +1,31 @@
 <header>
     <div class="header-options">
         {% if header.hasSearchBar %}
-            {% set ICON_PATH = "../../assets/icons/" %}
-            <div class="search-bar">
-                <span class="search-icon">
+            <div class="search-pannel">
+                {% set ICON_PATH = "../../assets/icons/" %}
+                <div class="search-bar">
                     {% include ICON_PATH ~ "search-icon.svg" %}
-                </span>
-                <input type="text" placeholder="Search programs...">
+                    <input type="text" placeholder="Search programs...">
+                </div>
+
+                <button class="filter-button">
+                    {% include ICON_PATH ~ "filter-icon.svg" %}
+                    Filter
+                </button>
             </div>
-
-            <button class="filter-button">
-                <span class="filter-icon"></span> 
-                {% include ICON_PATH ~ "filter-icon.svg" %} Filter
-            </button>
-
         {% endif %}
 
-        {# {% if header.hasViewModes %}
+        {% if header.hasViewModes %}
             <form class="view-mode-selector">
-                {% for mode in header.view_modes %}
+                {% for mode in header.viewModes %}
                     {% set mode_id = 'view-mode-' ~ loop.index %}
-                    <input type="radio" name="view-mode" id="{{mode_id}}">
-                    <label for="{{mode_id}}">{{mode.icon}}</label>
+                    <input type="radio" name="view-mode" id="{{mode_id}}" {% if loop.first %}checked{% endif %}>
+                    <label for="{{mode_id}}">
+                        {% include ICON_PATH ~ mode.icon %}
+                    </label>
                 {% endfor %}
             </form>          
-        {% endif %} #}
+        {% endif %}
     </div>
     
 

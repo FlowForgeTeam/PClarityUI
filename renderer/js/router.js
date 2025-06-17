@@ -9,6 +9,7 @@ async function loadPage(pageName, contextData = {}) {
     bindSidebarEvents();
 }
 
+// TODO: HERE THE EVENT BREAKS CSS TRANSITIONS (IN SIDEBAR BG CHANGE) DUE TO THE PAGE RELOAD. FIX LATER
 function bindSidebarEvents () {
     const sidebarItems = document.querySelectorAll('.sidebar-item');
     sidebarItems.forEach((item) => {

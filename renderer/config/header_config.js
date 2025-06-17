@@ -10,10 +10,12 @@ const headerConfig = {
     statistics: {
         title: 'App statistics',
         hasSearchBar: true,
-        // hasViewModes: false,
-        // viewModes: {
-
-        // }
+        hasViewModes: true,
+        viewModes: [
+            { icon: 'list-icon.svg', name: 'list' },
+            { icon: 'grid-icon.svg', name: 'grid' },
+            { icon: 'calendar-icon.svg', name: 'calendar' }
+        ]
     },
     welfare: {
         title: 'System welfare',
@@ -26,12 +28,12 @@ const headerConfig = {
     themes: {
         title: 'Themes',
         hasSearchBar: false,
-        // hasViewModes: false,
+        hasViewModes: false,
     },
     settings: {
         title: 'Settings',
         hasSearchBar: false,
-        // hasViewModes: false,
+        hasViewModes: false,
     },
 }
 
