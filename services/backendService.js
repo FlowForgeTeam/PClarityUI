@@ -1,50 +1,48 @@
-const path = require('path');
-const { spawn } = require('child_process');
-
-const pythonExecutable = 'python';
-
-const scriptPath = path.join(__dirname, '..', '..', 'evelina_version', 'client_for_debugging', 'cmd_client.py');
+const net = require('net');
+const { 
+    BACKEND_URL,
+    BACKEND_PORT,
+    RESPONSE_DELIMITER
+} = require('./constants.js');
 
 function callBackend(commandId, extra = {}) {
     return new Promise((resolve, reject) => {
+        const client = new net.Socket();
+
         const payload = {
             command_id: commandId,
-            extra: extra
+            extra
         }
 
-        const args = [scriptPath, JSON.stringify(payload)];
+        let buffer = '';
 
-        console.log(pythonExecutable, args);
-
-        const subprocess = spawn(pythonExecutable, args, {
-            cwd: path.join(__dirname, '../../evelina_version')
+        client.connect(BACKEND_PORT, BACKEND_URL, () => {
+            client.write(JSON.stringify(payload));
         });
 
-        let output = '', error = '';
+        client.on('data', (data) => {
+            const chunk = data.toString();
+            buffer += chunk;
 
-        subprocess.stdout.on('data', (data) => {
-            output += data.toString();
-        });
-
-        subprocess.stderr.on('data', (data) => {
-            error += data.toString();
-        });
-
-        subprocess.on('close', (code) => {
-            if (code !== 0 || error) {
-                reject(error || `Exited with code ${code}`);
-            } else {
+            if (buffer.includes(RESPONSE_DELIMITER)) {
+                
                 try {
-                    const actual = 'Responce: ';
-                    const index = output.indexOf(actual) + actual.length;
-                    output = output.substring(index);
-                    console.log(output);
-                    const result = JSON.parse(output);
-                    resolve(result);
+                    const endIndex = buffer.indexOf(RESPONSE_DELIMITER) + RESPONSE_DELIMITER.length;
+                    const responseStr = buffer.slice(0, endIndex);
+                    const parsed = JSON.parse(responseStr);
+                    resolve(parsed);
+
+                    client.end();
+                    client.destroy();
                 } catch (err) {
-                    reject(`Failed to parse JSON: ${err}`);
+                    reject(`Failed to parse JSON response: ${err}`);
+                    client.end();
                 }
             }
+        });
+
+        client.on('error', (err) => {
+            console.log(`Socket error: ${err.message}`);
         });
     });
 }
