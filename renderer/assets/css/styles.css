@@ -85,3 +85,22 @@ header {
     border: 1px solid  #493073;
     border-radius: 8px;
 }
+
+.page-content {
+    position: fixed;
+    left: 256px;
+    top: 130px;
+    padding-left: 66px;
+}
+
+h2 {
+    color: #B996FF;
+    font-weight: bold;
+    font-size: 24;
+}
+
+table {
+    width: 1053px;
+    height: 361px;
+    scroll-behavior: smooth;
+}
