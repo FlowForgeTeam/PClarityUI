@@ -27,6 +27,7 @@
   --spacing-xl: 66px;
   
   /* Border radius */
+  --border-radius-xs: 6px;
   --border-radius-sm: 8px;
   --border-radius-md: 10px;
   
@@ -76,19 +77,19 @@
 }
 
 [data-color-theme="black-pink"] {
-  --color-bg-primary: #0D0B14;
-  --color-bg-secondary: #1E1024;
-  --color-text-primary: #FF3CAC;
-  --color-text-secondary: #FF8FD1;
-  --color-accent: #FF61C9;
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1E1E1E;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #FF96F3;
+  --color-accent: #FF4EC9;
 }
 
-[data-color-theme="ultramarine-coral"] {
-  --color-bg-primary: #1C1DFF;
-  --color-bg-secondary: #2C3DF5;
-  --color-text-primary: #FFD2C2;
-  --color-text-secondary: #FFA78A;
-  --color-accent: #FF6F61;
+[data-color-theme="vintage-pink"] {
+  --color-bg-primary: #1B1B1B;
+   --color-bg-secondary: #2A2A2A;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E48BB3;
+  --color-accent: #A6456A;
 }
 
 /* ===== BASE STYLES ===== */
@@ -386,6 +387,12 @@ h2 {
   font-size: var(--font-size-lg);
 }
 
+p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
 /* ===== TABLE STYLES ===== */
 table {
   width: 100%;
@@ -411,6 +418,7 @@ table th {
 }
 
 /* made assumption that all icons must be of primary test color */
+/* ===== ICONS ===== */
 svg {
   fill: none;
   stroke: var(--color-text-primary);
@@ -423,4 +431,47 @@ svg {
 .app-logo svg {
   fill: var(--color-text-primary);
   stroke: none;
+}
+
+/* ===== THEMES ===== */
+.themes-container {
+  width: 1075px;
+  height: 208px;
+}
+
+.theme {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  margin: 20px;
+  display: inline-block;
+}
+
+.theme:hover {
+  cursor: pointer;
+}
+
+.theme.applied {
+  border: var(--border-radius-xs) solid var(--color-text-primary);
+}
+
+/*gradient is made of primary background color and accent color*/
+#default {
+  background-image: linear-gradient(320deg,rgba(24, 20, 50, 1) 20%, rgba(118, 73, 207, 1) 80%);
+}
+
+#dark-purple {
+  background-image: linear-gradient(320deg,rgba(21, 21, 21, 1) 20%, rgba(98, 14, 201, 1) 80%);
+}
+
+#light-red {
+  background-image: linear-gradient(320deg,rgba(242, 242, 242, 1) 20%, rgba(254, 74, 35, 1) 80%);
+}
+
+#black-pink {
+  background-image: linear-gradient(320deg,rgba(18, 18, 18, 1) 20%, rgba(255, 78, 201, 1) 80%);
+}
+
+#vintage-pink {
+  background-image: linear-gradient(320deg,rgba(27, 27, 27, 1) 20%, rgba(166, 69, 106, 1) 80%);
 }

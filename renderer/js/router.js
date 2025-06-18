@@ -6,6 +6,8 @@ async function loadPage(pageName, contextData = {}) {
         if (pageName === 'homepage') {
             const report = await window.api.getReport();
             console.log(report);
+        } else if (pageName === 'themes'){
+            bindThemesEvents();
         }
 
     } catch (error) {
@@ -29,6 +31,22 @@ function bindSidebarEvents () {
             activeItem.classList.remove('active');
             
             document.querySelector(`[data-page="${pageToLoad}"]`).classList.add('active');
+        });
+    });
+}
+
+function bindThemesEvents () {
+    const themeOptions = document.querySelectorAll('.theme');
+    themeOptions.forEach((theme) => {
+        theme.addEventListener('click', async (event) => {
+            let appliedTheme = document.querySelector('.theme.applied');
+            appliedTheme.classList.remove('applied');
+
+            const themeToApply = event.currentTarget.id;
+
+            document.querySelector('html').setAttribute("data-color-theme", themeToApply);
+            
+            document.getElementById(themeToApply).classList.add('applied');
         });
     });
 }

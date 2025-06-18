@@ -1,4 +1,11 @@
 {% extends "../base.twig" %}
 {% block content %}
-    <h1>Themes</h1>
+    <h2>Colour Themes</h2>
+    <p>Personalize the app as you wish!</p>
+
+    <div class="themes-container">
+        {% for theme in colorThemes %}
+            <div class="theme {% if theme.applied %}applied{% endif %}" id="{{ theme.name }}"></div>
+        {% endfor %}
+    </div>
 {% endblock %}
