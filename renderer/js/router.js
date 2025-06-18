@@ -36,6 +36,7 @@ function bindSidebarEvents () {
 }
 
 function bindThemesEvents () {
+    highlightCurrentTheme();
     const themeOptions = document.querySelectorAll('.theme');
     themeOptions.forEach((theme) => {
         theme.addEventListener('click', async (event) => {
@@ -46,9 +47,18 @@ function bindThemesEvents () {
 
             document.querySelector('html').setAttribute("data-color-theme", themeToApply);
             
-            document.getElementById(themeToApply).classList.add('applied');
+            highlightCurrentTheme();
         });
     });
+}
+
+function highlightCurrentTheme () {
+    const appliedTheme = document.documentElement.getAttribute('data-color-theme');
+    const themeDiv = document.getElementById(appliedTheme);
+
+    if (themeDiv) {
+        themeDiv.classList.add('applied');
+    }
 }
 
 loadPage('homepage');

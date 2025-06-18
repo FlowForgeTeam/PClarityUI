@@ -5,7 +5,7 @@
 
     <div class="themes-container">
         {% for theme in colorThemes %}
-            <div class="theme {% if theme.applied %}applied{% endif %}" id="{{ theme.name }}"></div>
+            <div class="theme" id="{{ theme.name }}"></div>
         {% endfor %}
     </div>
 {% endblock %}

@@ -1,7 +1,6 @@
 const themesConfig = [
     {
         name: 'default',
-        applied: true
     },
     {
         name: 'dark-purple',
