@@ -1,27 +1,5 @@
 {% extends "../base.twig" %}
 {% block content %}
     <h2>Main dashboard</h2>
-    <h2>Active programs</h2>
-
-    <table>
-        <tr>
-            <th class="icon-header">Icon</th>
-            <th>Title</th>
-            <th>Active for</th>
-            <th>MEM</th>
-        </tr>
-        {% for program in activePrograms %}
-            <tr>
-                <th class="icon-header">Icon</th>
-                <th>{{ program.title }}</th>
-                <th>{{ program.activeFor }}</th>
-                <th>{{ program.MEM }}</th>
-                <th><button>...</button></th>
-            </tr>
-        {% endfor %}        
-    </table>
-
-    {% for program in active_programs %}
-        
-    {% endfor %}
+    <h2>Monitored programs</h2>
 {% endblock %}

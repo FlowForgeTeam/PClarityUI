@@ -1,0 +1,37 @@
+<div class="monitored-programs">
+    <table>
+        <thead>
+            <tr>
+                {% for header in tableHeaders %}
+                    <th {% if header.value == 'icon' %} class="icon-header"{% endif %}>
+                        {{ header.name }}
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for program in monitoredPrograms %}
+                <tr>
+                    {% for header in tableHeaders %}
+                        <td>
+
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+            <tr>
+                {% for header in tableHeaders %}
+                    <th>
+                        {% if program[header.value] %}
+                            {{ program[header.value] }}
+                        {% else %}
+                            {{ program.headerPlaceholder }}
+                        {% endif %}
+                    </th>
+                {% endfor %}   
+            </tr>
+        {% endfor %}        
+    </table>
+</div>

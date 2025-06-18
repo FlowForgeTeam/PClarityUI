@@ -27,9 +27,7 @@ function callBackend(commandId, extra = {}) {
             if (buffer.includes(RESPONSE_DELIMITER)) {
                 
                 try {
-                    const endIndex = buffer.indexOf(RESPONSE_DELIMITER) + RESPONSE_DELIMITER.length;
-                    const responseStr = buffer.slice(0, endIndex);
-                    const parsed = JSON.parse(responseStr);
+                    const parsed = JSON.parse(buffer);
                     resolve(parsed);
 
                     client.end();
