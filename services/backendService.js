@@ -1,47 +1,74 @@
 const net = require('net');
-const { 
+const {
     BACKEND_URL,
     BACKEND_PORT,
     RESPONSE_DELIMITER
 } = require('./constants.js');
 
-function callBackend(commandId, extra = {}) {
-    return new Promise((resolve, reject) => {
-        const client = new net.Socket();
+let client = null;
+let isConnected = false;
+let connectPromise = null;
 
-        const payload = {
-            command_id: commandId,
-            extra
-        }
+function connectToBackend(params) {
+    if (isConnected && client) return Promise.resolve();
 
-        let buffer = '';
-
-        client.connect(BACKEND_PORT, BACKEND_URL, () => {
-            client.write(JSON.stringify(payload));
-        });
-
-        client.on('data', (data) => {
-            const chunk = data.toString();
-            buffer += chunk;
-
-            if (buffer.includes(RESPONSE_DELIMITER)) {
-                
-                try {
-                    const parsed = JSON.parse(buffer);
-                    resolve(parsed);
-
-                    client.end();
-                    client.destroy();
-                } catch (err) {
-                    reject(`Failed to parse JSON response: ${err}`);
-                    client.end();
-                }
-            }
+    if (!connectPromise) {
+        client = new net.Socket();
+        connectPromise = new Promise((resolve, reject) => {
+            client.connect(BACKEND_PORT, BACKEND_URL, () => {
+                isConnected = true;
+                resolve();
+            });
         });
 
         client.on('error', (err) => {
-            console.log(`Socket error: ${err.message}`);
+            isConnected = false;
+            client = null;
+            connectPromise = null;
+            reject(err);
         });
+
+        client.on('close', () => {
+            isConnected = false;
+            client = null;
+            connectPromise = null;
+        });
+    }
+
+    return connectPromise;
+}
+
+function callBackend(commandId, extra) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await connectToBackend();
+
+            const payload = JSON.stringify({
+                command_id: commandId,
+                extra
+            });
+
+            let buffer = '';
+
+            client.on('data', (data) => {
+                const chunk = data.toString();
+                buffer += chunk;
+
+                if (buffer.includes(RESPONSE_DELIMITER)) {
+                    try {
+                        const parsed = JSON.parse(buffer);
+                        resolve(parsed);
+                    } catch (err) {
+                        reject(`Failed to parse JSON: ${err}`);
+                    }
+                }
+            });
+
+            client.write(payload);
+
+        } catch (error) {
+            reject(`Failed to connect/send: ${err}`);
+        }
     });
 }
 
