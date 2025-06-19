@@ -3,7 +3,6 @@ const { iconPath } = require('../js/utils.js');
 const sidebarNavItems = [
     { icon: iconPath('home'), label: 'Home', pageName: 'homepage', isActive: true },
     { icon: iconPath('bar-chart'), label: 'App statistics', pageName: 'statistics' },
-    { icon: iconPath('pie-chart'), label: 'System welfare', pageName: 'welfare' },
 ];
 
 const sidebarFooterItems = [
