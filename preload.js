@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 const Twig = require('twig');
 
@@ -9,6 +9,7 @@ const { tableHeaders } = require('./renderer/config/monitored_programms_config.j
 
 const { templatePath } = require('./renderer/js/utils.js');
 const { callBackend } = require('./services/backendService.js');
+//const settingsService = require('./services/settingsService.js');
 
 const routes = {
     homepage: templatePath('homepage'),
@@ -47,5 +48,22 @@ contextBridge.exposeInMainWorld('api', {
 
     getReport: async () => {
         return await callBackend(0, {});
+    },
+
+    // Settings API
+    // settings: {
+    //     get: (key) => settingsService.get(key),
+    //     set: (key, value) => settingsService.set(key, value),
+    //     getAll: () => settingsService.getAll(),
+    //     reset: () => settingsService.reset()
+    // },
+
+    // Window control API
+    window: {
+        minimize: () => ipcRenderer.send('window-minimize'),
+        maximize: () => ipcRenderer.send('window-maximize'),
+        close: () => ipcRenderer.send('window-close'),
+        onMaximized: (callback) => ipcRenderer.on('window-maximized', callback),
+        onUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback)
     }
 });

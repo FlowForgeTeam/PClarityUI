@@ -1,5 +1,23 @@
+import { initializeTitlebar } from './titlebar.js';
+
+async function initializeApp() {
+    try {
+        //const settings = await window.api.settings.getAll();
+
+        //document.documentElement.setAttribute('data-color-theme', settings.theme);
+        //document.documentElement.setAttribute('data-font-size', settings.fontSize);
+        
+        await loadPage('homepage');
+        initializeTitlebar();
+
+    } catch (error) {
+        console.error('Error initializing app:', error);
+    }
+}
+
 async function loadPage(pageName, contextData = {}) {
     try {
+        
         if (pageName === 'homepage') {
             const report = await window.api.getReport();
             let programsData = {
@@ -11,6 +29,8 @@ async function loadPage(pageName, contextData = {}) {
         
         const html = await api.renderPage(pageName, contextData);
         document.getElementById('content').innerHTML = html;
+
+        initializeTitlebar();
 
         if (pageName === 'themes'){
             bindThemesEvents();
@@ -41,6 +61,7 @@ function bindSidebarEvents () {
     });
 }
 
+
 function bindThemesEvents () {
     highlightCurrentTheme();
     const themeOptions = document.querySelectorAll('.theme');
@@ -53,9 +74,43 @@ function bindThemesEvents () {
 
             document.querySelector('html').setAttribute("data-color-theme", themeToApply);
             
+            // Saving the selected theme to settings
+            // await window.api.settings.set('theme', themeToApply);
+            
             highlightCurrentTheme();
         });
     });
+}
+
+function bindSettingsEvents() {
+    // Example event handlers for the settings page
+    const settingsInputs = document.querySelectorAll('[data-setting]');
+    
+    settingsInputs.forEach(input => {
+        input.addEventListener('change', async (event) => {
+            const settingKey = event.target.getAttribute('data-setting');
+            const value = event.target.type === 'checkbox' ? 
+                event.target.checked : event.target.value;
+
+            // Saving the settings
+            await window.api.settings.set(settingKey, value);
+            
+            if (settingKey === 'fontSize') {
+                document.documentElement.setAttribute('data-font-size', value);
+            }
+        });
+    });
+
+    // Reset settings button
+    const resetButton = document.querySelector('#reset-settings');
+    if (resetButton) {
+        resetButton.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                await window.api.settings.reset();
+                location.reload();
+            }
+        });
+    }
 }
 
 function highlightCurrentTheme () {
@@ -67,6 +122,6 @@ function highlightCurrentTheme () {
     }
 }
 
-loadPage('homepage');
+initializeApp();
 
 export default loadPage;
