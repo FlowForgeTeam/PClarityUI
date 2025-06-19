@@ -20,6 +20,8 @@ async function loadPage(pageName, contextData = {}) {
         const html = await api.renderPage(pageName, contextData);
         document.getElementById('content').innerHTML = html;
         
+        initializeTitlebar();
+        
         if (pageName === 'homepage') {
             const report = await window.api.getReport();
             console.log(report);
