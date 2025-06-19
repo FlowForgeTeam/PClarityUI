@@ -260,7 +260,7 @@
   --color-text-secondary: #FE4A23;
   
   --color-obj-primary: #FE4A23;
-  --color-obj-secondary: #2F2F2F;
+  --color-obj-secondary: #aaaaaa;
   --color-obj-accent: #FE4A23;
 
   --color-bg-primary: #ffffff;
@@ -272,7 +272,7 @@
   --color-text-secondary: #C62828;
 
   --color-obj-primary: #F44336;
-  --color-obj-secondary: #B71C1C;
+  --color-obj-secondary: #aaaaaa;
   --color-obj-accent: #EF5350;
 
   --color-bg-primary: #FFF5F5;
@@ -786,6 +786,7 @@ svg {
 }
 
 .tooltiptext {
+  width: 110px;
   visibility: hidden;
   position: absolute;
   left: 50%;
@@ -793,13 +794,19 @@ svg {
   padding: var(--spacing-xs);
   color: var(--color-text-primary);
   background-color: var(--color-bg-secondary);
-  border: solid var(--sidebar-border-width) var(--color-text-primary);
-  border-radius: var(--border-radius-xs);
+  /* border: solid var(--sidebar-border-width) var(--color-text-primary); */
+  border-radius: var(--border-radius-md);
+
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  text-align: center;
+  pointer-events: none; /* prevents hovering over tooltip itself */
 }
 
 .tooltip:hover .tooltiptext {
-  transition-delay: 1s;
+  transition-delay: 0.5s;
   visibility: visible;
+  opacity: 1;
   text-align: center;
 }
 

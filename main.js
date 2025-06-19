@@ -12,17 +12,19 @@ const createWindow = () => {
     });
     
     const win = new BrowserWindow({
-        x: mainWindowState.x,
-        y: mainWindowState.y,
-        width: mainWindowState.width,
-        height: mainWindowState.height,
+        // x: mainWindowState.x,
+        // y: mainWindowState.y,
+        // width: mainWindowState.width,
+        // height: mainWindowState.height,
+        width: 1440, // disabled windowStateKeeper for now
+        height: 960,
+
         minWidth: 1280,
         minHeight: 800,
         // maxWidth: 1440,
         // maxHeight: 960,
         show: false,
         frame: false, // disable default frame (Windows)
-        titleBarStyle: 'hidden', // Для macOS
         webPreferences: {
             preload: path.join(__dirname, PRELOAD_SCRIPT),
             contextIsolation: true,
