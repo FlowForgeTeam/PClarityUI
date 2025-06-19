@@ -9,28 +9,20 @@
                 {% endfor %}
             </tr>
         </thead>
-        {# <tbody>
+        <tbody>
             {% for program in monitoredPrograms %}
-                {{ program[title] }}
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
-
+                            {% if program[header.value] %}
+                                {{ program[header.value] }}
+                            {% else %}
+                                {{ program.header.placeholder }}
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
             {% endfor %}
-            <tr>
-                {% for header in tableHeaders %}
-                    <th>
-                        {% if program[header.value] %}
-                            {{ program[header.value] }}
-                        {% else %}
-                            {{ program.headerPlaceholder }}
-                        {% endif %}
-                    </th>
-                {% endfor %}   
-            </tr>
-        </tbody>       #}
+        </tbody>
     </table>
 </div>
