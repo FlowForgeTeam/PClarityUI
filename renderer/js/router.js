@@ -1,4 +1,5 @@
 import { initializeTitlebar } from './titlebar.js';
+import appearanceManager from './appearanceManager.js';
 
 async function initializeApp() {
     try {
@@ -7,6 +8,8 @@ async function initializeApp() {
         //document.documentElement.setAttribute('data-color-theme', settings.theme);
         //document.documentElement.setAttribute('data-font-size', settings.fontSize);
         
+        await appearanceManager.initializeAppearance();
+
         await loadPage('homepage');
         initializeTitlebar();
 
@@ -32,8 +35,11 @@ async function loadPage(pageName, contextData = {}) {
 
         initializeTitlebar();
 
+        // if (pageName === 'themes'){
+        //     bindThemesEvents();
+        // }
         if (pageName === 'themes'){
-            bindThemesEvents();
+            appearanceManager.bindAppearanceEvents();
         }
 
     } catch (error) {
@@ -62,65 +68,65 @@ function bindSidebarEvents () {
 }
 
 
-function bindThemesEvents () {
-    highlightCurrentTheme();
-    const themeOptions = document.querySelectorAll('.theme');
-    themeOptions.forEach((theme) => {
-        theme.addEventListener('click', async (event) => {
-            let appliedTheme = document.querySelector('.theme.applied');
-            appliedTheme.classList.remove('applied');
+// function bindThemesEvents () {
+//     highlightCurrentTheme();
+//     const themeOptions = document.querySelectorAll('.theme');
+//     themeOptions.forEach((theme) => {
+//         theme.addEventListener('click', async (event) => {
+//             let appliedTheme = document.querySelector('.theme.applied');
+//             appliedTheme.classList.remove('applied');
 
-            const themeToApply = event.currentTarget.id;
+//             const themeToApply = event.currentTarget.id;
 
-            document.querySelector('html').setAttribute("data-color-theme", themeToApply);
+//             document.querySelector('html').setAttribute("data-color-theme", themeToApply);
             
-            // Saving the selected theme to settings
-            // await window.api.settings.set('theme', themeToApply);
+//             // Saving the selected theme to settings
+//             // await window.api.settings.set('theme', themeToApply);
             
-            highlightCurrentTheme();
-        });
-    });
-}
+//             highlightCurrentTheme();
+//         });
+//     });
+// }
 
-function bindSettingsEvents() {
-    // Example event handlers for the settings page
-    const settingsInputs = document.querySelectorAll('[data-setting]');
+// function bindSettingsEvents() {
+//     // Example event handlers for the settings page
+//     const settingsInputs = document.querySelectorAll('[data-setting]');
     
-    settingsInputs.forEach(input => {
-        input.addEventListener('change', async (event) => {
-            const settingKey = event.target.getAttribute('data-setting');
-            const value = event.target.type === 'checkbox' ? 
-                event.target.checked : event.target.value;
+//     settingsInputs.forEach(input => {
+//         input.addEventListener('change', async (event) => {
+//             const settingKey = event.target.getAttribute('data-setting');
+//             const value = event.target.type === 'checkbox' ? 
+//                 event.target.checked : event.target.value;
 
-            // Saving the settings
-            await window.api.settings.set(settingKey, value);
+//             // Saving the settings
+//             await window.api.settings.set(settingKey, value);
             
-            if (settingKey === 'fontSize') {
-                document.documentElement.setAttribute('data-font-size', value);
-            }
-        });
-    });
+//             if (settingKey === 'fontSize') {
+//                 document.documentElement.setAttribute('data-font-size', value);
+//             }
+//         });
+//     });
 
-    // Reset settings button
-    const resetButton = document.querySelector('#reset-settings');
-    if (resetButton) {
-        resetButton.addEventListener('click', async () => {
-            if (confirm('Are you sure you want to reset all settings to defaults?')) {
-                await window.api.settings.reset();
-                location.reload();
-            }
-        });
-    }
-}
+//     // Reset settings button
+//     const resetButton = document.querySelector('#reset-settings');
+//     if (resetButton) {
+//         resetButton.addEventListener('click', async () => {
+//             if (confirm('Are you sure you want to reset all settings to defaults?')) {
+//                 await window.api.settings.reset();
+//                 location.reload();
+//             }
+//         });
+//     }
+// }
 
-function highlightCurrentTheme () {
-    const appliedTheme = document.documentElement.getAttribute('data-color-theme');
-    const themeDiv = document.getElementById(appliedTheme);
+// function highlightCurrentTheme () {
+//     const appliedTheme = document.documentElement.getAttribute('data-color-theme');
+//     const themeDiv = document.getElementById(appliedTheme);
 
-    if (themeDiv) {
-        themeDiv.classList.add('applied');
-    }
-}
+//     if (themeDiv) {
+//         themeDiv.classList.add('applied');
+//     }
+// }
 
 initializeApp();
 

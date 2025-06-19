@@ -39,7 +39,8 @@
   /* Typography */
   --font-family-primary: 'Inter', sans-serif;
   --font-family-heading: 'Baloo 2', sans-serif;
-  --font-size-base: 16px;
+  --font-size-sm: 13px;
+  --font-size-md: 16px;
   --font-size-lg: 24px;
   --font-size-xl: 32px;
   --font-size-xxl: 40px;
@@ -55,6 +56,51 @@
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
+}
+/* ===== FONT FAMILY SETTINGS ===== */
+[data-font-family="inter"] {
+  --font-family-primary: 'Inter', sans-serif;
+}
+
+[data-font-family="roboto"] {
+  --font-family-primary: 'Roboto', sans-serif;
+}
+
+[data-font-family="open-sans"] {
+  --font-family-primary: 'Open Sans', sans-serif;
+}
+
+[data-font-family="poppins"] {
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+[data-font-family="source-sans"] {
+  --font-family-primary: 'Source Sans Pro', sans-serif;
+}
+
+/* ===== TEXT SIZE SETTINGS ===== */
+[data-text-size="small"] {
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+  --font-size-xxl: 34px;
+}
+
+[data-text-size="medium"] {
+  --font-size-sm: 13px;
+  --font-size-md: 16px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
+  --font-size-xxl: 40px;
+}
+
+[data-text-size="large"] {
+  --font-size-sm: 15px;
+  --font-size-md: 18px;
+  --font-size-lg: 28px;
+  --font-size-xl: 36px;
+  --font-size-xxl: 46px;
 }
 
 /* ===== THEME GRADIENTS ===== */
@@ -79,7 +125,7 @@
   
   --color-obj-primary: #620EC9;
   --color-obj-secondary: #2F2F2F;
-  --color-obj-accent: #B996FF;
+  --color-obj-accent: #653cb6;
 
   --color-bg-primary: #151515;
   --color-bg-secondary: #1F1741;
@@ -91,7 +137,7 @@
 
   --color-obj-primary: #FF96F3;
   --color-obj-secondary: #FF4EC9;
-  --color-obj-accent: #FF96F3;
+  --color-obj-accent: #b33aa5;
 
   --color-bg-primary: #121212;
   --color-bg-secondary: #1E1E1E;
@@ -103,7 +149,7 @@
 
   --color-obj-primary: #E48BB3;
   --color-obj-secondary: #A6456A;
-  --color-obj-accent: #E48BB3;
+  --color-obj-accent: #c47297;
 
   --color-bg-primary: #1B1B1B;
   --color-bg-secondary: #2A2A2A;
@@ -115,7 +161,7 @@
 
   --color-obj-primary: #0EA5E9;
   --color-obj-secondary: #1F3F4F;
-  --color-obj-accent: #66FFEB;
+  --color-obj-accent: #15a995;
 
   --color-bg-primary: #0A1419;
   --color-bg-secondary: #0F2A3A;
@@ -127,7 +173,7 @@
 
   --color-obj-primary: #059669;
   --color-obj-secondary: #1F4F3F;
-  --color-obj-accent: #66FF8C;
+  --color-obj-accent: #469f5c;
 
   --color-bg-primary: #0A1F14;
   --color-bg-secondary: #10332A;
@@ -138,8 +184,8 @@
   --color-text-secondary: #39FF14;
 
   --color-obj-primary: #00FF41;
-  --color-obj-secondary: #1F4F1F;
-  --color-obj-accent: #39FF14;
+  --color-obj-secondary: #1b1b1b;
+  --color-obj-accent: #00af03;
 
   --color-bg-primary: #000000;
   --color-bg-secondary: #0A0A0A;
@@ -151,22 +197,22 @@
 
   --color-obj-primary: #FF6B1A;
   --color-obj-secondary: #4F2F1F;
-  --color-obj-accent: #FF8C42;
+  --color-obj-accent: #c7682c;
 
   --color-bg-primary: #1A0F0A;
   --color-bg-secondary: #2D1B10;
 }
 
 [data-color-theme="dark-red"] {
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #C62828;
+  --color-text-primary: #e0def4;
+  --color-text-secondary: #908caa;
 
-  --color-obj-primary: #F44336;
-  --color-obj-secondary: #B71C1C;
-  --color-obj-accent: #EF5350;
+  --color-obj-primary: #eb6f92;
+  --color-obj-secondary: #31748f;
+  --color-obj-accent: #cf680e;
 
-  --color-bg-primary: #1A0F0A;
-  --color-bg-secondary: #2D1010;
+  --color-bg-primary: #191724;
+  --color-bg-secondary: #1f1d2e; 
 }
 
 /* ===== LIGHT THEMES ===== */
@@ -334,7 +380,7 @@ body {
 }
 
 .titlebar-title {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   font-weight: 500;
   user-select: none;
@@ -486,7 +532,7 @@ body:not(.maximized) .titlebar-close:hover {
   align-items: center;
   gap: 15px;
   padding: var(--spacing-xs) var(--spacing-md);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   height: 46px;
   border-radius: var(--border-radius-md);
   cursor: pointer;
@@ -711,7 +757,7 @@ h2 {
 
 p {
   color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   margin: 0 0 var(--spacing-lg) 0;
 }
 
@@ -846,7 +892,7 @@ svg {
 }
 
 #dark-red {
-  background-image: linear-gradient(320deg, #2d1010 20%, #EF5350 80%);
+  background-image: linear-gradient(320deg, #eb6f92 20%, #cf680e 80%);
 }
 
 /* Light Themes */

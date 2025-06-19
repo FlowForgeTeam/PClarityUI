@@ -4,7 +4,7 @@
     <p>Personalize the app as you wish!</p>
 
     <div class="themes-container">
-        {% for theme in colorThemes %}
+        {% for theme in appearance.themes %}
             <div class="tooltip">
                 <span class="tooltiptext">
                     {{ theme.theme_tag }}
@@ -12,5 +12,31 @@
                 <div class="theme" id="{{ theme.name }}"></div>
             </div>
         {% endfor %}
+    </div>
+
+    <div class="appearance-section">
+        <h3>Typography</h3>
+        
+        <div class="setting-group">
+            <label for="font-family-select">Font Family</label>
+            <select id="font-family-select" class="setting-select">
+                {% for font in appearance.fontFamilies %}
+                    <option value="{{ font.value }}">{{ font.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="appearance-section">
+        <h3>Text Settings</h3>
+        
+        <div class="setting-group">
+            <label for="text-size-select">Text Size</label>
+            <select id="text-size-select" class="setting-select">
+                {% for size in appearance.textSizes %}
+                    <option value="{{ size.value }}">{{ size.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
 {% endblock %}
