@@ -856,6 +856,97 @@ svg {
   text-align: center;
 }
 
+
+/* ===== SETTING GROUPS ===== */
+.setting-group {
+  margin-bottom: 2rem;
+}
+
+.setting-group label {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+/* ===== CUSTOM DROPDOWNS ===== */
+.setting-select {
+  width: 100%;
+  padding: 12px 16px;
+
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-obj-secondary);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B996FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.setting-select:hover {
+  border-color: var(--color-obj-accent);
+}
+
+.setting-select:focus {
+  outline: none;
+  border-color: var(--color-obj-accent);
+  box-shadow: 0 0 0 3px rgba(176, 150, 255, 0.1);
+}
+
+/* ===== DROPDOWN OPTIONS STYLING ===== */
+.setting-select option {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.setting-select option:hover,
+.setting-select option:focus,
+.setting-select option:checked {
+  background-color: var(--color-obj-accent);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.setting-select option:disabled {
+  background-color: var(--color-obj-secondary);
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+/* ===== WEBKIT DROPDOWN STYLING ===== */
+.setting-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.setting-select::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.setting-select::-webkit-scrollbar-thumb {
+  background: var(--color-obj-secondary);
+  border-radius: 4px;
+}
+
+.setting-select::-webkit-scrollbar-thumb:hover {
+  background: var(--color-obj-accent);
+}
+
 /* ===== THEME GRADIENTS ===== */
 
 /* Dark Themes */
