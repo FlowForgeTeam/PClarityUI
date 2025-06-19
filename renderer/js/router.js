@@ -1,12 +1,18 @@
 async function loadPage(pageName, contextData = {}) {
     try {
+        if (pageName === 'homepage') {
+            const report = await window.api.getReport();
+            let programsData = {
+                monitoredPrograms: report,
+            }
+            console.log(report);
+            contextData = {...contextData, ...programsData};
+        }
+        
         const html = await api.renderPage(pageName, contextData);
         document.getElementById('content').innerHTML = html;
-        
-        if (pageName === 'homepage') {
-            // const report = await window.api.getReport();
-            // console.log(report);
-        } else if (pageName === 'themes'){
+
+        if (pageName === 'themes'){
             bindThemesEvents();
         }
 

@@ -5,6 +5,7 @@ const Twig = require('twig');
 const { sidebarNavItems, sidebarFooterItems } = require('./renderer/config/sidebar_config.js');
 const { headerConfig } = require('./renderer/config/header_config.js');
 const { themesConfig } = require('./renderer/config/themes_config.js');
+const { tableHeaders } = require('./renderer/config/monitored_programms_config.js');
 
 const { templatePath } = require('./renderer/js/utils.js');
 const { callBackend } = require('./services/backendService.js');
@@ -28,6 +29,7 @@ contextBridge.exposeInMainWorld('api', {
             footerItems: sidebarFooterItems,
             header: headerConfig[pageName],
             colorThemes: themesConfig,
+            tableHeaders: tableHeaders,
             sidebarExpanded: true,
         }
 

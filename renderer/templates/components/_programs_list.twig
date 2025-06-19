@@ -9,8 +9,9 @@
                 {% endfor %}
             </tr>
         </thead>
-        <tbody>
+        {# <tbody>
             {% for program in monitoredPrograms %}
+                {{ program[title] }}
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
@@ -19,8 +20,6 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
-        </tbody>
-
             <tr>
                 {% for header in tableHeaders %}
                     <th>
@@ -32,6 +31,6 @@
                     </th>
                 {% endfor %}   
             </tr>
-        {% endfor %}        
+        </tbody>       #}
     </table>
 </div>
