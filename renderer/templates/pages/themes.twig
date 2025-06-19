@@ -5,7 +5,12 @@
 
     <div class="themes-container">
         {% for theme in colorThemes %}
-            <div class="theme" id="{{ theme.name }}"></div>
+            <div class="tooltip">
+                <span class="tooltiptext">
+                    {{ theme.theme_tag }}
+                </span>
+                <div class="theme" id="{{ theme.name }}"></div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

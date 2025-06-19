@@ -641,6 +641,32 @@ svg {
   border: var(--border-radius-xs) solid var(--color-bg-primary); box-shadow: 0 0 0 var(--border-radius-xxs) var(--color-text-primary);
 }
 
+/* ===== THEMES TOOLTIPS ===== */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* align-items: center; */
+  text-align: center;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-xs);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  border: solid var(--sidebar-border-width) var(--color-text-primary);
+  border-radius: var(--border-radius-xs);
+}
+
+.tooltip:hover .tooltiptext {
+  transition-delay: 1s;
+  visibility: visible;
+  text-align: center;
+}
+
 /* ===== THEME GRADIENTS ===== */
 
 /* Dark Themes */

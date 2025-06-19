@@ -4,8 +4,8 @@ async function loadPage(pageName, contextData = {}) {
         document.getElementById('content').innerHTML = html;
         
         if (pageName === 'homepage') {
-            const report = await window.api.getReport();
-            console.log(report);
+            // const report = await window.api.getReport();
+            // console.log(report);
         } else if (pageName === 'themes'){
             bindThemesEvents();
         }

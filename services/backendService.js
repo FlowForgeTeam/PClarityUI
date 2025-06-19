@@ -19,19 +19,19 @@ function connectToBackend(params) {
                 isConnected = true;
                 resolve();
             });
-        });
 
-        client.on('error', (err) => {
-            isConnected = false;
-            client = null;
-            connectPromise = null;
-            reject(err);
-        });
+            client.on('error', (err) => {
+                isConnected = false;
+                client = null;
+                connectPromise = null;
+                reject(err);
+            });
 
-        client.on('close', () => {
-            isConnected = false;
-            client = null;
-            connectPromise = null;
+            client.on('close', () => {
+                isConnected = false;
+                client = null;
+                connectPromise = null;
+            });
         });
     }
 
