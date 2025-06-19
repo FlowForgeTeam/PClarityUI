@@ -730,7 +730,8 @@ header {
 .page-content {
   margin-left: var(--sidebar-width-expanded);
   margin-top: calc(var(--header-height) + 32px); /* 32px for titlebar */
-  padding: var(--spacing-xl);
+  padding-inline: var(--spacing-xl);
+  padding-top: var(--spacing-md);
   /* min-height: calc(100vh - var(--header-height)); ERROR SOMEWHERE DUE TO MARGINS */
   transition: margin-left var(--transition-normal);
   overflow-y: auto;
@@ -804,7 +805,6 @@ svg {
 /* ===== THEMES ===== */
 .themes-container {
   width: 100%;
-  height: 208px;
 }
 
 .theme {
@@ -858,6 +858,10 @@ svg {
 
 
 /* ===== SETTING GROUPS ===== */
+.appearance-section {
+  margin-top: 30px;
+}
+
 .setting-group {
   margin-bottom: 2rem;
 }
