@@ -3,14 +3,11 @@ import appearanceManager from './appearanceManager.js';
 
 async function initializeApp() {
     try {
-        //const settings = await window.api.settings.getAll();
-
-        //document.documentElement.setAttribute('data-color-theme', settings.theme);
-        //document.documentElement.setAttribute('data-font-size', settings.fontSize);
         
         await appearanceManager.initializeAppearance();
 
         await loadPage('homepage');
+
         initializeTitlebar();
 
     } catch (error) {
@@ -35,11 +32,12 @@ async function loadPage(pageName, contextData = {}) {
 
         initializeTitlebar();
 
-        // if (pageName === 'themes'){
-        //     bindThemesEvents();
-        // }
         if (pageName === 'themes'){
             appearanceManager.bindAppearanceEvents();
+        }
+
+        if (pageName === 'settings') {
+            bindSettingsEvents();
         }
 
     } catch (error) {
@@ -68,65 +66,42 @@ function bindSidebarEvents () {
 }
 
 
-// function bindThemesEvents () {
-//     highlightCurrentTheme();
-//     const themeOptions = document.querySelectorAll('.theme');
-//     themeOptions.forEach((theme) => {
-//         theme.addEventListener('click', async (event) => {
-//             let appliedTheme = document.querySelector('.theme.applied');
-//             appliedTheme.classList.remove('applied');
+function bindSettingsEvents() {
+    console.log('Binding settings events...');
 
-//             const themeToApply = event.currentTarget.id;
+    const resetButton = document.querySelector('#reset-settings');
+    if (resetButton) {
+        resetButton.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                await window.api.settings.reset();
+                
+                await appearanceManager.initializeAppearance();
+                await loadPage('settings');
+            }
+        });
+    }
 
-//             document.querySelector('html').setAttribute("data-color-theme", themeToApply);
-            
-//             // Saving the selected theme to settings
-//             // await window.api.settings.set('theme', themeToApply);
-            
-//             highlightCurrentTheme();
-//         });
-//     });
-// }
-
-// function bindSettingsEvents() {
-//     // Example event handlers for the settings page
-//     const settingsInputs = document.querySelectorAll('[data-setting]');
+    // Settings toggles and inputs will be added here later
+    const settingsInputs = document.querySelectorAll('[data-setting]');
     
-//     settingsInputs.forEach(input => {
-//         input.addEventListener('change', async (event) => {
-//             const settingKey = event.target.getAttribute('data-setting');
-//             const value = event.target.type === 'checkbox' ? 
-//                 event.target.checked : event.target.value;
-
-//             // Saving the settings
-//             await window.api.settings.set(settingKey, value);
-            
-//             if (settingKey === 'fontSize') {
-//                 document.documentElement.setAttribute('data-font-size', value);
-//             }
-//         });
-//     });
-
-//     // Reset settings button
-//     const resetButton = document.querySelector('#reset-settings');
-//     if (resetButton) {
-//         resetButton.addEventListener('click', async () => {
-//             if (confirm('Are you sure you want to reset all settings to defaults?')) {
-//                 await window.api.settings.reset();
-//                 location.reload();
-//             }
-//         });
-//     }
-// }
-
-// function highlightCurrentTheme () {
-//     const appliedTheme = document.documentElement.getAttribute('data-color-theme');
-//     const themeDiv = document.getElementById(appliedTheme);
-
-//     if (themeDiv) {
-//         themeDiv.classList.add('applied');
-//     }
-// }
+    settingsInputs.forEach(input => {
+        const settingKey = input.getAttribute('data-setting');
+        
+        if (input.type === 'checkbox') {
+            input.addEventListener('change', async (event) => {
+                const value = event.target.checked;
+                await window.api.settings.set(settingKey, value);
+                console.log(`Setting ${settingKey} set to:`, value);
+            });
+        } else {
+            input.addEventListener('change', async (event) => {
+                const value = event.target.value;
+                await window.api.settings.set(settingKey, value);
+                console.log(`Setting ${settingKey} set to:`, value);
+            });
+        }
+    });
+}
 
 initializeApp();
 

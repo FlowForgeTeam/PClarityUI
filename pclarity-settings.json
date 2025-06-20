@@ -1,0 +1,27 @@
+{
+  "appearance": {
+    "theme": "default",
+    "font": "Inter",
+    "fontSize": "medium",
+    "language": "en",
+    "sidebarPosition": "left",
+    "sidebarExpanded": true,
+    "cardStyle": "default",
+    "animations": true,
+    "compactMode": false
+  },
+  "monitoring": {
+    "logFolder": "E:\\Projects\\PClarity\\PClarityUI\\logs",
+    "autoStart": true,
+    "refreshInterval": 5000,
+    "showInactiveApps": true,
+    "gpuTracking": true,
+    "cpuTracking": true,
+    "ramTracking": true,
+    "autoTrackNewApps": true
+  },
+  "notifications": {
+    "enabled": true,
+    "sound": true
+  }
+}

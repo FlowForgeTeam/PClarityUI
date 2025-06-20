@@ -4,7 +4,7 @@ const Twig = require('twig');
 
 const { templatePath } = require('./renderer/js/utils.js');
 const { callBackend } = require('./services/backendService.js');
-//const settingsService = require('./services/settingsService.js');
+const settingsService = require('./services/settingsService.js');
 const { fullContext } = require('./services/contextService.js');
 
 const routes = {
@@ -39,12 +39,12 @@ contextBridge.exposeInMainWorld('api', {
     },
 
     // Settings API
-    // settings: {
-    //     get: (key) => settingsService.get(key),
-    //     set: (key, value) => settingsService.set(key, value),
-    //     getAll: () => settingsService.getAll(),
-    //     reset: () => settingsService.reset()
-    // },
+    settings: {
+        get: (key) => settingsService.get(key),
+        set: (key, value) => settingsService.set(key, value),
+        getAll: () => settingsService.getAll(),
+        reset: () => settingsService.reset()
+    },
 
     // Window control API
     window: {
