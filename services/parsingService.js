@@ -1,4 +1,4 @@
-// function for parsing data recieved from service
+// Service for parsing data recieved from service
 // Data comes to service as js-objects
 // and leaves as js-objects that can be simply displayed
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
@@ -16,7 +16,10 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
 
     const paramMap = {};
     processParams.forEach((param) => {
-        paramMap[param.name] = param;
+        const name = param.name;
+        if (allParamNames.includes(name)) {
+            paramMap[name] = param;
+        }
     });
 
     let parsedReport = [];
@@ -33,9 +36,9 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
 
             parsedReport.push(filtered);
         });
-    })
+    });
     
-    return {allParamNames, parsedReport};
+    return {paramMap, parsedReport};
 }
 
 function flattenObject(obj, parentKey = '', result = {}) {
