@@ -24,23 +24,66 @@ class AppearanceManager {
                 break;
         }
 
-        // Save to settings (when implemented)
-        // await window.api.settings.set(`appearance.${settingType}`, value);
+        // Save to settings
+        await window.api.settings.set(`appearance.${settingType}`, value);
         
         this.settings[settingType] = value;
+        console.log(`Applied ${settingType}: ${value}`);
     }
 
     async initializeAppearance() {
-        // Load from settings when implemented
-        // const settings = await window.api.settings.getAll();
-        // this.settings = settings.appearance || this.settings;
+        try {
+            // Load from settings
+            const savedSettings = await window.api.settings.getAll();
+            if (savedSettings && savedSettings.appearance) {
+                this.settings = {
+                    theme: savedSettings.appearance.theme || 'default',
+                    fontFamily: savedSettings.appearance.font || 'inter',
+                    textSize: savedSettings.appearance.fontSize || 'medium'
+                };
+            }
 
-        Object.entries(this.settings).forEach(([key, value]) => {
-            this.applyAppearanceSetting(key, value);
-        });
+            // Apply all settings
+            for (const [key, value] of Object.entries(this.settings)) {
+                await this.applyAppearanceSettingWithoutSaving(key, value);
+            }
+
+            console.log('Appearance initialized with settings:', this.settings);
+        } catch (error) {
+            console.error('Error initializing appearance:', error);
+            // Fall back to defaults
+            Object.entries(this.settings).forEach(([key, value]) => {
+                this.applyAppearanceSettingWithoutSaving(key, value);
+            });
+        }
+    }
+
+    async applyAppearanceSettingWithoutSaving(settingType, value) {
+        const htmlElement = document.documentElement;
+        
+        switch (settingType) {
+            case 'theme':
+                htmlElement.setAttribute('data-color-theme', value);
+                this.highlightCurrentTheme();
+                break;
+            case 'fontFamily':
+                await this.applyFontFamily(value);
+                break;
+            case 'textSize':
+                htmlElement.setAttribute('data-text-size', value);
+                this.updateTextSizeDropdown();
+                break;
+        }
     }
 
     highlightCurrentTheme () {
+        // Remove previous applied class
+        const previousApplied = document.querySelector('.theme.applied');
+        if (previousApplied) {
+            previousApplied.classList.remove('applied');
+        }
+
+        // Add applied class to current theme
         const appliedTheme = document.documentElement.getAttribute('data-color-theme');
         const themeDiv = document.getElementById(appliedTheme);
 
