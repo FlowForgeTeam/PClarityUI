@@ -3,11 +3,16 @@
 // and leaves as js-objects that can be simply displayed
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
-const reportComponents = ['currently_active', 'tracked'];
+const homepageMandatoryParamNames = ['Icon', 'Title', 'RAM', 'CPU'];
+const statisticsMandatoryParamNames = ['Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
 
-function parseReport(report, paramNames = []) {
-    const mandatoryParamNames = ['Active', 'Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Threads'];
-    const allParamNames = [...mandatoryParamNames, ...paramNames];
+function parseReport(report, paramNames = [], pageName = 'homepage') {
+
+    const reportComponents = ['tracked', 'currently_active'];
+
+    const allParamNames = pageName === 'statistics' 
+        ? [...statisticsMandatoryParamNames, ...paramNames] 
+        : [...homepageMandatoryParamNames, ...paramNames];
 
     const paramMap = {};
     processParams.forEach((param) => {
