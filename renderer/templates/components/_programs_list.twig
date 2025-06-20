@@ -3,22 +3,18 @@
         <thead>
             <tr>
                 {% for header in tableHeaders %}
-                    <th {% if header.value == 'icon' %} class="icon-header"{% endif %}>
-                        {{ header.name }}
+                    <th {% if header == 'Icon' %} class="icon-header"{% endif %}>
+                        {{ header }}
                     </th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for program in monitoredPrograms %}
+            {% for program in monitoredProgramsReport %}
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
-                            {% if program[header.value] %}
-                                {{ program[header.value] }}
-                            {% else %}
-                                {{ program.header.placeholder }}
-                            {% endif %}
+                            {{ program[header] }}
                         </td>
                     {% endfor %}
                 </tr>
