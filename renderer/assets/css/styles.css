@@ -1005,6 +1005,15 @@ svg {
   border-bottom: none;
 }
 
+.setting-item:has(.folder-input-container) {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.setting-item:has(.folder-input-container) .setting-content {
+    margin-bottom: 1rem;
+}
+
 .setting-content {
   flex: 1;
 }
@@ -1126,6 +1135,7 @@ svg {
 
 /* Folder Input Styles */
 .folder-input-container {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1133,6 +1143,8 @@ svg {
 
 .folder-input {
   flex: 1;
+  min-width: 0;
+  width: 100%;
   padding: 0.75rem;
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-obj-secondary);

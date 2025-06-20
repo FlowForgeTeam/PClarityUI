@@ -22,7 +22,8 @@ const DEFAULT_SETTINGS = {
     monitoring: {
         logFolder: path.join(process.cwd(), 'logs'),
         autoStart: true,
-        refreshInterval: 10,           // seconds
+        refreshInterval: 10,           // value
+        refreshIntervalUnit: 's',      // s, m, h, d
         showInactiveApps: true,
         gpuTracking: true,
         cpuTracking: true,
