@@ -6,7 +6,7 @@ const sidebarNavItems = [
 ];
 
 const sidebarFooterItems = [
-    { icon: iconPath("help"), label: "Help", pageName: "homepage" },
+    { icon: iconPath("help"), label: "Help", pageName: "help" },
     { icon: iconPath("color-swatch"), label: "Themes", pageName: "themes" },
     { icon: iconPath("settings"), label: "Settings", pageName: "settings" }
 ];

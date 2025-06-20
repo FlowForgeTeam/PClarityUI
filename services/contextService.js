@@ -12,7 +12,11 @@ const reportProperty = 'monitoredPrograms';
 
 function fullContext (pageName, contextData = {}) {
     if (contextData.hasOwnProperty(reportProperty)) {
-        const {allParamNames, parsedReport} = parseReport(contextData[reportProperty]);
+        const {allParamNames, parsedReport} = parseReport(
+            contextData[reportProperty],
+            [],
+            pageName = pageName
+        );
         contextData = {
             ...contextData,
             tableHeaders: allParamNames,
