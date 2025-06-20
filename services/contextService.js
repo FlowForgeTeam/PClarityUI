@@ -6,9 +6,20 @@ const { sidebarNavItems, sidebarFooterItems } = require('../renderer/config/side
 const { headerConfig } = require('../renderer/config/header_config.js');
 // const { themesConfig } = require('../renderer/config/themes_config.js');
 const { appearanceConfig, themesConfig } = require('../renderer/config/appearance_config.js');
-const { processParams } = require('../renderer/config/monitored_programms_config.js');
+const { parseReport } = require('./parsingService');
+
+const reportProperty = 'monitoredPrograms';
 
 function fullContext (pageName, contextData = {}) {
+    if (contextData.hasOwnProperty(reportProperty)) {
+        const {allParamNames, parsedReport} = parseReport(contextData[reportProperty]);
+        contextData = {
+            ...contextData,
+            tableHeaders: allParamNames,
+            monitoredProgramsReport: parsedReport
+        };
+    }
+
     return {
         ...contextData,
         navItems: sidebarNavItems,
@@ -18,7 +29,6 @@ function fullContext (pageName, contextData = {}) {
         colorThemes: appearanceConfig.themes,        // redundant, but for backwards compatibility
         fontFamilies: appearanceConfig.fontFamilies, // redundant
         textSizes: appearanceConfig.textSizes,       // redundant
-        tableHeaders: processParams,
         sidebarExpanded: true,
     };
 }

@@ -6,7 +6,7 @@ const { processParams } = require('../renderer/config/monitored_programms_config
 const reportComponents = ['currently_active', 'tracked'];
 
 function parseReport(report, paramNames = []) {
-    const mandatoryParamNames = ['Icon', 'Title', 'Active for'];
+    const mandatoryParamNames = ['Active', 'Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Threads'];
     const allParamNames = [...mandatoryParamNames, ...paramNames];
 
     const paramMap = {};
@@ -30,7 +30,7 @@ function parseReport(report, paramNames = []) {
         });
     })
     
-    return parsedReport;
+    return {allParamNames, parsedReport};
 }
 
 function flattenObject(obj, parentKey = '', result = {}) {
@@ -48,3 +48,5 @@ function flattenObject(obj, parentKey = '', result = {}) {
     }
     return result;
 }
+
+module.exports = { parseReport };

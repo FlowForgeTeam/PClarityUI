@@ -8,6 +8,7 @@ const processParams = [
     { name: 'PPID', value: 'data.ppid', placeholder: '—' },
     { name: 'Threads', value: 'data.started_threads', placeholder: '0' },
     { name: 'Priority', value: 'data.priority_class', placeholder: '—' },
+    { name: 'CPU', value: 'cpu_usage', placeholder: '0%'},
     { name: 'Tracked', value: 'is_tracked', placeholder: 'No' },
     { name: 'Active', value: 'is_active', placeholder: 'No' }
 ];
