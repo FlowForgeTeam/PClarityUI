@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 {% for header in tableHeaders %}
-                    <th>{{ header }}</th>
+                    <th>{{ header.name }}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -12,16 +12,17 @@
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
-                            {% if header == "Active" %}
+                            {% if header.name == "Active" %}
                                 <div class="is-program-active
                                 {% if program[header] == true %}
                                     yes
                                 {% else %}
                                     no
                                 {% endif %}"></div>
-                                {% else %}
-                                     {{ program[header] }}
+                            {% else %}
+                                {{ program[header.name] }}{% if header.unit %}{{ header.unit }}
                                 {% endif %}
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
