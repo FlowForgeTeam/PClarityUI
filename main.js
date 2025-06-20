@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, globalShortcut  } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut, dialog  } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('node:path');
 
@@ -63,6 +63,20 @@ const createWindow = () => {
     ipcMain.on('window-close', (event) => {
         const window = BrowserWindow.fromWebContents(event.sender);
         window.close();
+    });
+
+    ipcMain.handle('show-folder-dialog', async (event, defaultPath) => {
+        const window = BrowserWindow.fromWebContents(event.sender);
+        const result = await dialog.showOpenDialog(window, {
+            title: 'Select Log Folder',
+            defaultPath: defaultPath,
+            properties: ['openDirectory']
+        });
+        
+        if (!result.canceled && result.filePaths.length > 0) {
+            return result.filePaths[0];
+        }
+        return null;
     });
 
     win.on('maximize', () => {

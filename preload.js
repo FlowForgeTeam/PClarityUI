@@ -55,6 +55,10 @@ contextBridge.exposeInMainWorld('api', {
         onUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback)
     },
 
+    dialog: {
+        showFolderDialog: (defaultPath) => ipcRenderer.invoke('show-folder-dialog', defaultPath)
+    },
+
     // Opens page by specified URL in user's default browser:
     openPage: (pageURL) => {
         shell.openExternal(pageURL);
