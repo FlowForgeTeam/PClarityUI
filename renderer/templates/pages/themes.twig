@@ -1,24 +1,26 @@
 {% extends "../base.twig" %}
 {% block content %}
-    <h2>Colour Themes</h2>
-    <p>Personalize the app as you wish!</p>
+    <div class="appearance-section">
+        <h2>Colour Themes</h2>
+        <p>Personalize the app as you wish!</p>
 
-    <div class="themes-container">
-        {% for theme in appearance.themes %}
-            <div class="tooltip">
-                <span class="tooltiptext">
-                    {{ theme.theme_tag }}
-                </span>
-                <div class="theme" id="{{ theme.name }}"></div>
-            </div>
-        {% endfor %}
+        <div class="themes-container">
+            {% for theme in appearance.themes %}
+                <div class="tooltip">
+                    <span class="tooltiptext">
+                        {{ theme.theme_tag }}
+                    </span>
+                    <div class="theme" id="{{ theme.name }}"></div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="appearance-section">
         <h2>Typography</h2>
         
         <div class="setting-group">
-            <label for="font-family-select">Font Family</label>
+            <p for="font-family-select">Font Family</p>
             <select id="font-family-select" class="setting-select">
                 {% for font in appearance.fontFamilies %}
                     <option value="{{ font.value }}">{{ font.label }}</option>
@@ -27,7 +29,7 @@
         </div>
         
         <div class="setting-group">
-            <label for="text-size-select">Text Size</label>
+            <p for="text-size-select">Text Size</p>
             <select id="text-size-select" class="setting-select">
                 {% for size in appearance.textSizes %}
                     <option value="{{ size.value }}">{{ size.label }}</option>
