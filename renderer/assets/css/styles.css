@@ -951,6 +951,203 @@ svg {
   background: var(--color-obj-accent);
 }
 
+/* ===== SETTINGS PAGE STYLES ===== */
+.settings-section {
+  margin-bottom: 2rem;
+  /* 
+  padding: 1.5rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-obj-secondary);
+  */
+} 
+
+.settings-section h3 {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  margin-bottom: 1.5rem;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-obj-secondary);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-content {
+  flex: 1;
+}
+
+.setting-content h3 {
+  margin: 0 0 1rem 0;
+  /* margin-bottom: 1rem; */
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.setting-content p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+/* Toggle Switch Styles */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-obj-secondary);
+  border-radius: 32px;
+  transition: 0.3s;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--color-obj-accent);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(28px);
+}
+
+/* Refresh Rate Styles */
+.refresh-rate-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.refresh-label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.refresh-input {
+  width: 60px;
+  padding: 0.5rem;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-obj-secondary);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  text-align: center;
+}
+
+.refresh-input:focus {
+  outline: none;
+  border-color: var(--color-obj-accent);
+}
+
+.time-units {
+  display: flex;
+  border: 1px solid var(--color-obj-secondary);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.time-unit {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-bg-primary);
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+}
+
+.time-unit:hover {
+  background-color: var(--color-obj-secondary);
+}
+
+.time-unit.active {
+  background-color: var(--color-obj-accent);
+  color: var(--color-text-primary);
+}
+
+/* Folder Input Styles */
+.folder-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.folder-input {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-obj-secondary);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+}
+
+.browse-button {
+  padding: 0.75rem;
+  background-color: var(--color-obj-accent);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.browse-button:hover {
+  background-color: var(--color-obj-primary);
+}
+
+.reset-button {
+  background-color: var(--color-obj-accent);
+  color: var(--color-text-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-sm);
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.reset-button:hover {
+  background-color: var(--color-obj-primary);
+}
+
 /* ===== THEME GRADIENTS ===== */
 
 /* Dark Themes */

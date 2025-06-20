@@ -74,8 +74,8 @@ function bindSettingsEvents() {
         resetButton.addEventListener('click', async () => {
             if (confirm('Are you sure you want to reset all settings to defaults?')) {
                 await window.api.settings.reset();
-                
                 await appearanceManager.initializeAppearance();
+                
                 await loadPage('settings');
             }
         });

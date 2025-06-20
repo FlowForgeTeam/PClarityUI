@@ -9,8 +9,8 @@ const SETTINGS_PATH = path.join(process.cwd(), 'pclarity-settings.json');
 const DEFAULT_SETTINGS = {
     appearance: {
         theme: 'default',
-        font: 'Inter',
-        fontSize: 'medium', // small, medium, large
+        fontFamily: 'inter',
+        textSize: 'medium', // small, medium, large
 
         language: 'en',
         sidebarPosition: 'left', // left, right, bottom, top
@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS = {
     monitoring: {
         logFolder: path.join(process.cwd(), 'logs'),
         autoStart: true,
-        refreshInterval: 5000, // in milliseconds
+        refreshInterval: 10,           // seconds
         showInactiveApps: true,
         gpuTracking: true,
         cpuTracking: true,

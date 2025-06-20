@@ -13,21 +13,31 @@ class AppearanceManager {
         switch (settingType) {
             case 'theme':
                 htmlElement.setAttribute('data-color-theme', value);
-                this.highlightCurrentTheme();
                 break;
             case 'fontFamily':
                 await this.applyFontFamily(value);
                 break;
             case 'textSize':
                 htmlElement.setAttribute('data-text-size', value);
-                this.updateTextSizeDropdown();
                 break;
         }
 
-        // Save to settings
         await window.api.settings.set(`appearance.${settingType}`, value);
-        
+
         this.settings[settingType] = value;
+
+        switch (settingType) {
+            case 'theme':
+                this.highlightCurrentTheme();
+                break;
+            case 'fontFamily':
+                this.updateFontDropdown();
+                break;
+            case 'textSize':
+                this.updateTextSizeDropdown();
+                break;
+        }
+        
         console.log(`Applied ${settingType}: ${value}`);
     }
 
@@ -38,8 +48,8 @@ class AppearanceManager {
             if (savedSettings && savedSettings.appearance) {
                 this.settings = {
                     theme: savedSettings.appearance.theme || 'default',
-                    fontFamily: savedSettings.appearance.font || 'inter',
-                    textSize: savedSettings.appearance.fontSize || 'medium'
+                    fontFamily: savedSettings.appearance.fontFamily || 'inter',
+                    textSize: savedSettings.appearance.textSize || 'medium'
                 };
             }
 
@@ -47,6 +57,8 @@ class AppearanceManager {
             for (const [key, value] of Object.entries(this.settings)) {
                 await this.applyAppearanceSettingWithoutSaving(key, value);
             }
+
+            // this.highlightCurrentTheme();
 
             console.log('Appearance initialized with settings:', this.settings);
         } catch (error) {
@@ -64,14 +76,12 @@ class AppearanceManager {
         switch (settingType) {
             case 'theme':
                 htmlElement.setAttribute('data-color-theme', value);
-                this.highlightCurrentTheme();
                 break;
             case 'fontFamily':
                 await this.applyFontFamily(value);
                 break;
             case 'textSize':
                 htmlElement.setAttribute('data-text-size', value);
-                this.updateTextSizeDropdown();
                 break;
         }
     }
@@ -117,10 +127,8 @@ class AppearanceManager {
         if (fontConfig) {
             await this.loadFont(fontConfig);
         }
-        
-        // Apply the font
+
         document.documentElement.setAttribute('data-font-family', fontValue);
-        this.updateFontDropdown();
     }
 
     getFontConfig(fontValue) {
@@ -139,6 +147,7 @@ class AppearanceManager {
         const dropdown = document.getElementById('font-family-select');
         if (dropdown) {
             dropdown.value = this.settings.fontFamily;
+            console.log(`Font dropdown updated to: ${this.settings.fontFamily}`);
         }
     }
 
@@ -146,6 +155,7 @@ class AppearanceManager {
         const dropdown = document.getElementById('text-size-select');
         if (dropdown) {
             dropdown.value = this.settings.textSize;
+            console.log(`Text size dropdown updated to: ${this.settings.textSize}`);
         }
     }
 
@@ -153,6 +163,10 @@ class AppearanceManager {
         this.bindThemeEvents();
         this.bindFontEvents();
         this.bindTextSizeEvents();
+
+        this.highlightCurrentTheme();
+        this.updateFontDropdown();
+        this.updateTextSizeDropdown();
     }
 
     bindThemeEvents() {
