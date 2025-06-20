@@ -3,9 +3,7 @@
         <thead>
             <tr>
                 {% for header in tableHeaders %}
-                    <th {% if header == 'Icon' %} class="icon-header"{% endif %}>
-                        {{ header }}
-                    </th>
+                    <th>{{ header }}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -14,7 +12,16 @@
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
-                            {{ program[header] }}
+                            {% if header == "Active" %}
+                                <div class="is-program-active
+                                {% if program[header] == true %}
+                                    yes
+                                {% else %}
+                                    no
+                                {% endif %}"></div>
+                                {% else %}
+                                     {{ program[header] }}
+                                {% endif %}
                         </td>
                     {% endfor %}
                 </tr>

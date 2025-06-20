@@ -12,6 +12,9 @@
 
   --color-bg-primary: #181432;
   --color-bg-secondary: #1F1741;
+
+  --color-positive: #4FC978;
+  --color-inactive: #6E6E6E;
   
   /* Sidebar */
   --sidebar-width-expanded: 256px;
@@ -35,6 +38,7 @@
   --border-radius-xs: 4px;
   --border-radius-sm: 8px;
   --border-radius-md: 10px;
+  --border-radius-circle: 50%;
   
   /* Typography */
   --font-family-primary: 'Inter', sans-serif;
@@ -786,6 +790,23 @@ table th {
   width: 40px;
 }
 
+/* ===== PROGRAM ACTIVITY STYLES ===== */
+.is-program-active {
+  margin: auto;
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+  border-radius: var(--border-radius-circle);
+  text-align: center;
+}
+
+.is-program-active.yes {
+  background-color: var(--color-positive);
+}
+
+.is-program-active.no {
+  background-color: var(--color-inactive);
+}
+
 /* made assumption that all icons must be of primary test color */
 /* ===== ICONS ===== */
 svg {
@@ -810,7 +831,7 @@ svg {
 .theme {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-circle);
   margin: 15px;
   display: inline-block;
 }
@@ -1036,7 +1057,7 @@ svg {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  border-radius: 50%;
+  border-radius: var(--border-radius-circle);
   transition: 0.3s;
 }
 
