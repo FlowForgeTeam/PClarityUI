@@ -1,6 +1,8 @@
 import { initializeTitlebar } from './titlebar.js';
 import appearanceManager from './appearanceManager.js';
 
+const HELP_URL = 'https://github.com/FlowForgeTeam/PClarity/blob/main/README.md';
+
 async function initializeApp() {
     try {
         
@@ -18,13 +20,15 @@ async function initializeApp() {
 async function loadPage(pageName, contextData = {}) {
     try {
         
-        if (pageName === 'homepage') {
+        if (pageName === 'homepage' || pageName === 'statistics') {
             const report = await window.api.getReport();
             let programsData = {
                 monitoredPrograms: report,
             }
-            console.log(report);
             contextData = {...contextData, ...programsData};
+        } else if (pageName === 'help') {
+            window.api.openPage(HELP_URL);
+            return;
         }
         
         const html = await api.renderPage(pageName, contextData);

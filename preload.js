@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, shell } = require('electron');
 
 const Twig = require('twig');
 
@@ -53,5 +53,10 @@ contextBridge.exposeInMainWorld('api', {
         close: () => ipcRenderer.send('window-close'),
         onMaximized: (callback) => ipcRenderer.on('window-maximized', callback),
         onUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback)
-    }
+    },
+
+    // Opens page by specified URL in user's default browser:
+    openPage: (pageURL) => {
+        shell.openExternal(pageURL);
+    },
 });
