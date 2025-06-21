@@ -1,0 +1,23 @@
+<div class="pc-monitored-cards-grid">
+    {% for program in monitoredProgramsReport %}
+        <div class="app-card" data-app-title="{{ program['Title'] }}">
+            <div class="app-card-top">
+                <div class="app-card-stats">
+                    <span class="stat-item">RAM: {{ program['RAM'] }}</span>
+                    <span class="stat-divider">|</span>
+                    <span class="stat-item">CPU: {{ program['CPU'] }}%</span>
+                </div>
+                <div class="app-card-status 
+                    {% if program['Active'] == true %}
+                        active
+                    {% else %}
+                        inactive
+                    {% endif %}">
+                </div>
+            </div>
+            <div class="app-card-content">
+                <h3 class="app-card-title">{{ program['Title'] }}</h3>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,5 +1,22 @@
 {% extends "../base.twig" %}
 {% block content %}
-    <h1>App statistics</h1>
-    {% include "../components/_programs_list.twig" %}
+    <div class="view-container view-mode-list" id="statistics-content">
+        <h1>App statistics</h1>
+        
+        <!-- Table View (default) -->
+        <div class="monitored-programs">
+            {% include "../components/_programs_list.twig" %}
+        </div>
+        
+        <!-- Cards View -->
+        <div class="monitored-programs-cards">
+            {% include "../components/_programs_cards.twig" %}
+        </div>
+        
+        <!-- Calendar View (placeholder) -->
+        <div class="monitored-programs-calendar" style="display: none;">
+            <h2>Calendar view coming soon...</h2>
+            <p>Will be replaced with dense stats view.</p>
+        </div>
+    </div>
 {% endblock %}

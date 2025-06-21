@@ -1,4 +1,39 @@
 {% extends "../base.twig" %}
 {% block content %}
-    <h1>App details</h1>
+    <div class="app-details-container">
+        {% if appName %}
+            <h1>{{ appName }}</h1>
+            <p>Detailed information for {{ appName }} will be displayed here.</p>
+            
+            <div class="app-details-content">
+                <h2>App Information</h2>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Application Name:</span>
+                        <span class="detail-value">{{ appName }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Resource Usage:</span>
+                        <span class="detail-value">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="app-actions">
+                    <button onclick="history.back()" class="back-button">
+                        ← Back to App Statistics
+                    </button>
+                </div>
+            </div>
+        {% else %}
+            <h1>App Details</h1>
+            <p>No app selected. Please go back and select an app to view its details.</p>
+            <button onclick="history.back()" class="back-button">
+                ← Back to App Statistics
+            </button>
+        {% endif %}
+    </div>
 {% endblock %}

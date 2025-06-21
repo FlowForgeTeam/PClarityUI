@@ -45,6 +45,7 @@
   --font-family-heading: 'Baloo 2', sans-serif;
   --font-size-sm: 13px;
   --font-size-md: 16px;
+  --font-size-ml: 20px;
   --font-size-lg: 24px;
   --font-size-xl: 32px;
   --font-size-xxl: 40px;
@@ -86,6 +87,7 @@
 [data-text-size="small"] {
   --font-size-sm: 12px;
   --font-size-md: 14px;
+  --font-size-ml: 17px;
   --font-size-lg: 20px;
   --font-size-xl: 28px;
   --font-size-xxl: 34px;
@@ -94,6 +96,7 @@
 [data-text-size="medium"] {
   --font-size-sm: 13px;
   --font-size-md: 16px;
+  --font-size-ml: 20px;
   --font-size-lg: 24px;
   --font-size-xl: 32px;
   --font-size-xxl: 40px;
@@ -102,6 +105,7 @@
 [data-text-size="large"] {
   --font-size-sm: 15px;
   --font-size-md: 18px;
+  --font-size-ml: 23px;
   --font-size-lg: 28px;
   --font-size-xl: 36px;
   --font-size-xxl: 46px;
@@ -809,6 +813,128 @@ table th {
 
 .is-program-active.no {
   background-color: var(--color-inactive);
+}
+
+/* ===== APP CARDS STYLES ===== */
+.pc-monitored-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-auto-flow: row;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.app-card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-obj-secondary);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  height: 280px;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Check parent container */
+.view-mode-grid {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Ensure the content area has full width */
+.view-mode-grid .content,
+.view-mode-grid main,
+.view-mode-grid .main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.app-card:hover {
+  border-color: var(--color-obj-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.app-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+}
+
+.app-card-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  flex: 1;
+}
+
+.stat-item {
+  white-space: nowrap;
+}
+
+.stat-divider {
+  color: var(--color-obj-secondary);
+}
+
+.app-card-status {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--border-radius-circle);
+  flex-shrink: 0;
+  margin-left: var(--spacing-xs);
+}
+
+.app-card-status.active {
+  background-color: var(--color-positive);
+}
+
+.app-card-status.inactive {
+  background-color: var(--color-inactive);
+}
+
+.app-card-content {
+  margin-top: auto;
+  text-align: left;
+}
+
+.app-card-title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-ml);
+  font-weight: var(--font-weight-medium);
+  margin: 0;
+  word-wrap: break-word;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* ===== VIEW MODE HIDING ===== */
+.view-mode-list .pc-monitored-cards-grid {
+  display: none !important;
+}
+
+.view-mode-grid .monitored-programs {
+  display: none !important;
+}
+
+.view-mode-grid .pc-monitored-cards-grid {
+  display: grid !important;
+}
+
+.view-mode-calendar .monitored-programs,
+.view-mode-calendar .pc-monitored-cards-grid {
+  display: none !important;
 }
 
 /* made assumption that all icons must be of primary test color */

@@ -44,6 +44,11 @@ async function loadPage(pageName, contextData = {}) {
             bindSettingsEvents();
         }
 
+        if (pageName === 'statistics') {
+            bindViewModeEvents();
+            bindAppCardEvents();
+        }
+
     } catch (error) {
         console.error('Error loading page:', error);
     }
@@ -68,6 +73,81 @@ function bindSidebarEvents () {
         });
     });
 }
+
+// ------------- CARD EVENTS -------------
+
+function bindViewModeEvents() {
+    const viewModeInputs = document.querySelectorAll('input[name="view-mode"]');
+    const statisticsContent = document.getElementById('statistics-content');
+    
+    if (!statisticsContent) return;
+    
+    viewModeInputs.forEach((input, index) => {
+        input.addEventListener('change', (event) => {
+            if (event.target.checked) {
+                statisticsContent.classList.remove('view-mode-list', 'view-mode-grid', 'view-mode-calendar');
+
+                switch(index) {
+                    case 0: // List view
+                        statisticsContent.classList.add('view-mode-list');
+                        break;
+                    case 1: // Grid/Cards view
+                        statisticsContent.classList.add('view-mode-grid');
+                        break;
+                    case 2: // Calendar view
+                        statisticsContent.classList.add('view-mode-calendar');
+                        break;
+                }
+                
+                console.log(`View mode changed to: ${index === 0 ? 'list' : index === 1 ? 'grid' : 'calendar'}`);
+            }
+        });
+    });
+}
+
+function bindAppCardEvents() {
+    formatCardsData();
+    
+    const appCards = document.querySelectorAll('.app-card');
+    
+    appCards.forEach(card => {
+        card.addEventListener('click', async (event) => {
+            const appTitle = event.currentTarget.getAttribute('data-app-title');
+            if (appTitle && appTitle !== '—') {
+                console.log(`App card clicked: ${appTitle}`);
+                await loadPage('details', { appName: appTitle });
+            }
+        });
+    });
+}
+
+// Could be reused in table conversions also !!!!!!!!!!!!!!!!!!!!
+function formatBytes(bytes) {
+    if (bytes === 0 || bytes === '0' || bytes === '—') return '0 B';
+    
+    const numBytes = typeof bytes === 'string' ? parseInt(bytes) : bytes;
+    if (isNaN(numBytes)) return bytes;
+    
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(numBytes) / Math.log(k));
+    
+    return parseFloat((numBytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function formatCardsData() {
+    const ramElements = document.querySelectorAll('.app-card .stat-item');
+    
+    ramElements.forEach(element => {
+        const text = element.textContent;
+        if (text.startsWith('RAM: ')) {
+            const ramValue = text.replace('RAM: ', '');
+            element.textContent = `RAM: ${formatBytes(ramValue)}`;
+        }
+    });
+}
+
+// ------------- SETTINGS -------------
 
 async function loadSettingsValues() {
     try {
