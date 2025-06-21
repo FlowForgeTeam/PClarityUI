@@ -2,8 +2,13 @@
 // Data comes to service as js-objects
 // and leaves as js-objects that can be simply displayed
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
+const fs = require('fs');
+const path = require('path');
 
-const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU'];
+// Path to process icons folder - adjust this to match your setup
+const PROCESS_ICONS_PATH = path.join(process.cwd(), 'Process_icons');
+
+const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Active for', 'System Start'];
 const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
 const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Active for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
@@ -34,8 +39,20 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
 
         processes.forEach((process) => {
             const flat = flattenObject(process);
+
             const filtered = allParamNames.reduce((acc, name) => {
-                acc[name] = flat[paramMap[name].value] || paramMap[name].placeholder;
+                if (name === 'Icon') {
+                    acc[name] = getProcessIcon(flat['data.exe_name'] || flat['data.product_name']);
+                } else if (name === 'Active for') {
+                    if ('system_start' in process) {
+                        acc[name] = calculateActiveFor(process.system_start);
+                    } else {
+                        acc[name] = paramMap[name]?.placeholder || '—';
+                    }
+                } else {
+                    const valueKey = paramMap[name]?.value;
+                    acc[name] = flat[valueKey] ?? paramMap[name]?.placeholder ?? '—';
+                }
                 return acc;
             }, {});
 
@@ -53,6 +70,29 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
     return {paramMap, parsedReport, appData};
 }
 
+function getProcessIcon(executableName) {
+    if (!executableName) {
+        return '💿'; // Default fallback
+    }
+
+    try {
+        // Remove .exe extension if present and add .ico
+        const iconName = executableName.replace(/\.exe$/i, '') + '.ico';
+        const iconPath = path.join(PROCESS_ICONS_PATH, iconName);
+        
+        if (fs.existsSync(iconPath)) {
+            // Return relative path for web use
+            return `../Process_icons/${iconName}`;
+        }
+        
+        // Fallback to emoji if no icon file found
+        return '💿';
+    } catch (error) {
+        console.error('Error checking for process icon:', error);
+        return '💿';
+    }
+}
+
 function flattenObject(obj, parentKey = '', result = {}) {
     for (const key in obj) {
         if (!obj.hasOwnProperty(key)) continue;
@@ -67,6 +107,26 @@ function flattenObject(obj, parentKey = '', result = {}) {
         }
     }
     return result;
+}
+
+function calculateActiveFor(startTime) {
+    const currentTime = Date.now();
+    const startTimeMs = startTime * 1000;
+    const diffMs = currentTime - startTimeMs;
+
+    if (diffMs < 0) return 'Just launched';
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
+    parts.push(`${seconds}s`);
+
+    return parts.join(' ');
 }
 
 module.exports = { parseReport }

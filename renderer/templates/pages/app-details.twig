@@ -8,7 +8,11 @@
                     <div class="icon-section">
                         <div class="app-icon-large">
                             {% if appData.Icon and appData.Icon != '💿' %}
-                                {{ appData.Icon }}
+                                {% if appData.Icon starts with '../' %}
+                                    <img src="{{ appData.Icon }}" alt="{{ appData.Name or appData.Title }} icon" style="width: 100%; height: 100%; object-fit: contain;">
+                                {% else %}
+                                    {{ appData.Icon }}
+                                {% endif %}
                             {% else %}
                                 {% include "../../assets/icons/process-icon.svg" %}
                             {% endif %}

@@ -1,0 +1,135 @@
+{% if dashboardData %}
+<div class="dashboard-container">
+    <div class="dashboard-main-section">
+        <!-- Weekly Usage Chart -->
+        <div class="usage-chart-card">
+            <h3>Usage This Week</h3>
+            <div class="chart-container">
+                <div class="chart-y-axis">
+                    <span class="y-axis-label">hours/day</span>
+                    {% set maxHours = 0 %}
+                    {% for day in dashboardData.weeklyUsage %}
+                        {% if day.hours > maxHours %}
+                            {% set maxHours = day.hours %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if maxHours == 0 %}{% set maxHours = 10 %}{% endif %}
+                    
+                    <span class="y-axis-value">{{ maxHours }}</span>
+                    <span class="y-axis-value">{{ (maxHours * 0.8)|round(1) }}</span>
+                    <span class="y-axis-value">{{ (maxHours * 0.6)|round(1) }}</span>
+                    <span class="y-axis-value">{{ (maxHours * 0.4)|round(1) }}</span>
+                    <span class="y-axis-value">{{ (maxHours * 0.2)|round(1) }}</span>
+                    <span class="y-axis-value">0</span>
+                </div>
+                
+                <div class="chart-bars">
+                    {% for day in dashboardData.weeklyUsage %}
+                        {% set heightPercent = (day.hours / maxHours * 100) %}
+                        <div class="chart-bar-container">
+                            <div class="chart-bar" style="height: {{ heightPercent }}%">
+                                <div class="bar-value">{{ day.hours }}h</div>
+                            </div>
+                            <div class="bar-label">{{ day.date|date('M j') }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        {% include "../../assets/icons/clock.svg" %}
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Total time spent</div>
+                        <div class="stat-value">{{ dashboardData.totalStats.totalTime }}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        {% include "../../assets/icons/clock-spin.svg" %}
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Average a day</div>
+                        <div class="stat-value">{{ dashboardData.totalStats.averagePerDay }}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        {% include "../../assets/icons/calendar-set.svg" %}
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Compared to prior</div>
+                        <div class="stat-value">28% up</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side Cards -->
+        <div class="dashboard-cards">
+            <!-- Most Used Today -->
+            <div class="dashboard-card large-card">
+                <div class="card-header">
+                    <span class="card-label">Most Used Today</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">{{ dashboardData.mostUsedToday.appName }}</h3>
+                    <div class="card-value">{{ dashboardData.mostUsedToday.duration }}</div>
+                </div>
+            </div>
+            
+            <!-- Peak Usage Hours -->
+            <div class="dashboard-card large-card">
+                <div class="card-header">
+                    <span class="card-label">Peak Usage Hours</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">{{ dashboardData.peakHours.peakHour }}:00 - {{ dashboardData.peakHours.peakHour + 1 }}:00</h3>
+                    <div class="peak-hours-chart">
+                        {% for hour in range(0, 24) %}
+                            {% set hourData = dashboardData.peakHours.hourlyData[hour] %}
+                            {% set usage = hourData ? hourData.usage : 0 %}
+                            {% set heightPercent = dashboardData.peakHours.peakValue > 0 ? (usage / dashboardData.peakHours.peakValue * 100) : 0 %}
+                            <div class="peak-bar" style="height: {{ heightPercent }}%"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="peak-hours-labels">
+                        <span>0:00</span>
+                        <span>6:00</span>
+                        <span>12:00</span>
+                        <span>18:00</span>
+                        <span>24:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Spent Today -->
+            <div class="dashboard-card small-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        {% include "../../assets/icons/sun.svg" %}
+                    </div>
+                    <span class="card-label">Spent today</span>
+                </div>
+                <div class="card-value">{{ dashboardData.todayStats.formatted }}</div>
+            </div>
+            
+            <!-- Apps Tracking -->
+            <div class="dashboard-card small-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        {% include "../../assets/icons/sun.svg" %}
+                    </div>
+                    <span class="card-label">Apps Tracking</span>
+                </div>
+                <div class="card-value">{{ dashboardData.trackedAppsCount }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

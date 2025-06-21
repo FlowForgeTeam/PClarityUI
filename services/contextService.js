@@ -23,7 +23,6 @@ function fullContext (pageName, contextData = {}) {
             ...contextData,
             tableHeaders: paramMap,
             monitoredProgramsReport: parsedReport,
-            appData: appData,
             ...(appData && { appData })
         };
     }

@@ -39,6 +39,16 @@ async function loadPage(pageName, contextData = {}) {
         currentPage = pageName;
         
         if (pageName === 'homepage' || pageName === 'statistics') {
+            if (pageName === 'homepage') {
+                try {
+                    const dashboardData = await window.api.getDashboardData();
+                    contextData.dashboardData = dashboardData;
+                } catch (error) {
+                    console.error('Error loading dashboard data:', error);
+                    // Continue without dashboard data
+                }
+            }
+            
             // Initial load
             await fetchRenderAndInitializePage(pageName, contextData);
             
@@ -47,6 +57,9 @@ async function loadPage(pageName, contextData = {}) {
                 if (currentPage === pageName)
                     await renderTable(pageName, contextData);
             }, 2000);
+
+        } else if (pageName === 'details') {
+            await fetchRenderAndInitializePage(pageName, contextData);
 
         } else {
             await renderAndInitializePage(pageName, contextData);

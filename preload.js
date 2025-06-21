@@ -7,6 +7,7 @@ const { callBackend } = require('./services/backendService.js');
 const settingsService = require('./services/settingsService.js');
 const { fullContext } = require('./services/contextService.js');
 const { getRefreshIntervalMs } = require('./services/refreshService.js');
+const sessionDataService = require('./services/sessionDataService.js');
 
 const routes = {
     homepage: templatePagePath('homepage'),
@@ -27,7 +28,8 @@ contextBridge.exposeInMainWorld('api', {
         pageName = pageName || templateName;
         console.log(`Rendering component ${templateName} for ${pageName}`);
         const templatePath = routes[templateName];
-        const context = fullContext(pageName, contextData);
+        
+        const context = await fullContext(pageName, contextData);
 
         return new Promise((resolve, reject) => {
             Twig.renderFile(templatePath, context, (err, html) => {
@@ -43,6 +45,11 @@ contextBridge.exposeInMainWorld('api', {
 
     getReport: async () => {
         return await callBackend(0, {});
+    },
+
+    // Session data API
+    getDashboardData: async () => {
+        return await sessionDataService.getDashboardData();
     },
 
     // Settings API
