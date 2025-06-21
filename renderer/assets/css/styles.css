@@ -1118,7 +1118,7 @@ table th {
   flex: 1;
 }
 
-.stat-item {
+.card-stat-item {
   white-space: nowrap;
   line-height: 1.2;
 }

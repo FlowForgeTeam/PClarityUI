@@ -9,7 +9,7 @@
                         <div class="app-icon-large">
                             {% if appData.Icon and appData.Icon != '💿' %}
                                 {% if appData.Icon starts with '../' %}
-                                    <img src="{{ appData.Icon }}" alt="{{ appData.Name or appData.Title }} icon" style="width: 100%; height: 100%; object-fit: contain;">
+                                    <img src="{{ appData.Icon }}" alt="{{ appData.Name }} icon" style="width: 100%; height: 100%; object-fit: contain;">
                                 {% else %}
                                     {{ appData.Icon }}
                                 {% endif %}
@@ -53,11 +53,11 @@
                     </div>
                     
                     <div class="app-details-content">
-                        <h1>{{ appData.Name or appData.Title }}</h1>
+                        <h1>{{ appData.Name  }}</h1>
                         <p class="app-subtitle">{{ appData.Title }}</p>
                         
                         <div class="app-description">
-                            <p>Process information for {{ appData.Name or appData.Title }}.</p>
+                            <p>Process information for {{ appData.Title }}.</p>
                         </div>
                         
                         <div class="app-technical-info">

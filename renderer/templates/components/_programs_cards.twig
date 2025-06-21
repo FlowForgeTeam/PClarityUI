@@ -4,8 +4,8 @@
         <div class="app-card" data-app-name="{{ displayName }}">
             <div class="app-card-top">
                 <div class="app-card-stats">
-                    <span class="stat-item">RAM: {{ program['RAM'] }}</span>
-                    <span class="stat-item">CPU: {{ program['CPU'] }}%</span>
+                    <span class="card-stat-item">RAM: {{ program['RAM'] }}</span>
+                    <span class="card-stat-item">CPU: {{ program['CPU'] }}%</span>
                 </div>
                 <div class="app-card-status 
                     {% if program['Active'] == true %}
