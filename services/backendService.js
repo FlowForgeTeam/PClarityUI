@@ -28,6 +28,7 @@ function connectToBackend() {
                     buffer += data.toString();
                 
                     if (buffer.includes(RESPONSE_DELIMITER)) {
+                        console.log("DELIMITER FOUND!!!");
                         try {
                             const parsed = JSON.parse(buffer);
                             currentResolve?.(parsed);
@@ -69,7 +70,7 @@ function callBackend(commandId, extra) {
                 return reject('Previous request still pending.');
 
             const payload = JSON.stringify({
-                command_id: commandId,
+                request_id: commandId,
                 extra
             });
 
