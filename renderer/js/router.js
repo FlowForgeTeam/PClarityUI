@@ -1,4 +1,4 @@
-import { initializeTitlebar } from './titlebar.js';
+import { initializeTitlebar, cleanupTitlebarListeners } from './titlebar.js';
 import appearanceManager from './appearanceManager.js';
 
 const HELP_URL = 'https://github.com/FlowForgeTeam/PClarity/blob/main/README.md';
@@ -69,6 +69,9 @@ async function loadPage(pageName, contextData = {}) {
 }
 
 function cleanupEventListeners() {
+    // Clean up titlebar listeners
+    cleanupTitlebarListeners();
+
     // Clean up sidebar listeners
     sidebarListeners.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler);
