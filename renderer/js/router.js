@@ -44,20 +44,18 @@ async function loadPage(pageName, contextData = {}) {
             
             // Set up interval for updates
             intervalId = setInterval(async () => {
-                if (currentPage === pageName) {
-                    await fetchRenderAndInitializePage(pageName, contextData);
-                }
+                if (currentPage === pageName)
+                    await renderTable(contextData);
             }, 2000);
+
         } else {
             await renderAndInitializePage(pageName, contextData);
             
-            if (pageName === 'themes') {
+            if (pageName === 'themes')
                 appearanceManager.bindAppearanceEvents();
-            }
             
-            if (pageName === 'settings') {
+            if (pageName === 'settings')
                 await bindSettingsEvents();
-            }
         }
 
         if (pageName === 'statistics') {
@@ -97,41 +95,56 @@ function cleanupEventListeners() {
 }
 
 async function renderAndInitializePage(pageName, contextData) {
-    const wrapper = document.querySelector('.main-wrapper');
-    const scrollX = wrapper ? wrapper.scrollLeft : 0;
-    const scrollY = wrapper ? wrapper.scrollTop : 0;
-
     const html = await api.renderPage(pageName, contextData);
     document.getElementById('content').innerHTML = html;
-
-    requestAnimationFrame(() => {
-        const newWrapper = document.querySelector('.main-wrapper');
-        if (newWrapper) {
-            requestAnimationFrame(() => {
-                newWrapper.scrollLeft = scrollX;
-                newWrapper.scrollTop = scrollY;
-            });
-        }
-    });
 
     bindSidebarEvents();
 }
 
-function initializeTable() {
-    
-} 
-
 async function fetchRenderAndInitializePage(pageName, contextData) {
     try {
-        const report = await window.api.getReport();
-        const programsData = {
-            monitoredPrograms: report,
-        };
-        contextData = {...contextData, ...programsData};
+        contextData = await getProgramsData(contextData);
         await renderAndInitializePage(pageName, contextData);
     } catch (error) {
         console.error('Error fetching data:', error);
         // Render page without data on error
+        await renderAndInitializePage(pageName, contextData);
+    }
+}
+
+async function getProgramsData(contextData) {
+    const report = await window.api.getReport();
+    const programsData = {
+        monitoredPrograms: report,
+    };
+    console.log(report);
+    return {...contextData, ...programsData};
+}
+
+async function renderTable(contextData) {
+    try {
+        const wrapper = document.querySelector('.monitored-programs');
+        const scrollX = wrapper ? wrapper.scrollLeft : 0;
+        const scrollY = wrapper ? wrapper.scrollTop : 0;
+        contextData = await getProgramsData(contextData);
+
+        const componentName = 'programs_list';
+
+        const html = await api.renderPage(componentName, contextData);
+        document.querySelector('.monitored-programs').innerHTML = html;
+
+        requestAnimationFrame(() => {
+            const newWrapper = document.querySelector('.monitored-programs');
+            if (newWrapper) {
+                requestAnimationFrame(() => {
+                    newWrapper.scrollLeft = scrollX;
+                    newWrapper.scrollTop = scrollY;
+                });
+            }
+        });
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
         await renderAndInitializePage(pageName, contextData);
     }
 }

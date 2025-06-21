@@ -2,19 +2,20 @@ const { contextBridge, ipcRenderer, shell } = require('electron');
 
 const Twig = require('twig');
 
-const { templatePath } = require('./renderer/js/utils.js');
+const { templatePagePath, templateComponentPath } = require('./renderer/js/utils.js');
 const { callBackend } = require('./services/backendService.js');
 const settingsService = require('./services/settingsService.js');
 const { fullContext } = require('./services/contextService.js');
 const { getRefreshIntervalMs } = require('./services/refreshService.js');
 
 const routes = {
-    homepage: templatePath('homepage'),
-    statistics: templatePath('app-statistics'),
-    details: templatePath('app-details'),
-    welfare: templatePath('system-welfare'),
-    settings: templatePath('settings'),
-    themes: templatePath('themes'),
+    homepage: templatePagePath('homepage'),
+    statistics: templatePagePath('app-statistics'),
+    details: templatePagePath('app-details'),
+    welfare: templatePagePath('system-welfare'),
+    settings: templatePagePath('settings'),
+    themes: templatePagePath('themes'),
+    programs_list: templateComponentPath('programs_list'),
 };
 
 // Track callbacks to prevent memory leaks
@@ -23,6 +24,7 @@ let unmaximizedCallback = null;
 
 contextBridge.exposeInMainWorld('api', {
     renderPage: async (pageName, contextData = {}) => {
+        console.log(`Rendering ${pageName} with ${contextData}`);
         const templatePath = routes[pageName];
         const context = fullContext(pageName, contextData);
 

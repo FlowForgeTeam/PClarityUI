@@ -28,7 +28,6 @@ function connectToBackend() {
                     buffer += data.toString();
                 
                     if (buffer.includes(RESPONSE_DELIMITER)) {
-                        console.log("DELIMITER FOUND!!!");
                         try {
                             const parsed = JSON.parse(buffer);
                             currentResolve?.(parsed);
