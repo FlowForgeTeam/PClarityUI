@@ -1,7 +1,10 @@
 // Service for parsing data recieved from service
 // Data comes to service as js-objects
 // and leaves as js-objects that can be simply displayed
+const { fs } = require('fs');
+const { path } = require('path');
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
+const { ICON_PATH, ICON_EXTENSION } = require('./constants.js');
 
 const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Active for', 'System Start'];
 const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
@@ -41,6 +44,12 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
                         acc[name] = calculateActiveFor(process.system_start);
                     } else {
                         acc[name] = paramMap[name]?.placeholder || '—';
+                    }
+                } else if (name === 'Icon') {
+                    if ('data.exe_name' in flat) {
+                        acc[name] = getIconPath(flat['data.exe_name']);
+                    } else {
+                        acc[name] = getIconPath(paramMap[name]?.placeholder);
                     }
                 } else {
                     const valueKey = paramMap[name]?.value;
@@ -97,6 +106,11 @@ function calculateActiveFor(startTime) {
     parts.push(`${seconds}s`);
 
     return parts.join(' ');
+}
+
+
+function getIconPath(exeName) {
+    return `${ICON_PATH}${exeName}${ICON_EXTENSION}`;
 }
 
 module.exports = { parseReport }
