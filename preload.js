@@ -17,10 +17,13 @@ const routes = {
     themes: templatePath('themes'),
 };
 
+// Track callbacks to prevent memory leaks
+let maximizedCallback = null;
+let unmaximizedCallback = null;
+
 contextBridge.exposeInMainWorld('api', {
     renderPage: async (pageName, contextData = {}) => {
         const templatePath = routes[pageName];
-
         const context = fullContext(pageName, contextData);
 
         return new Promise((resolve, reject) => {
@@ -52,21 +55,47 @@ contextBridge.exposeInMainWorld('api', {
         minimize: () => ipcRenderer.send('window-minimize'),
         maximize: () => ipcRenderer.send('window-maximize'),
         close: () => ipcRenderer.send('window-close'),
-        onMaximized: (callback) => ipcRenderer.on('window-maximized', callback),
-        onUnmaximized: (callback) => ipcRenderer.on('window-unmaximized', callback)
+        
+        onMaximized: (callback) => {
+            if (maximizedCallback) {
+                ipcRenderer.off('window-maximized', maximizedCallback);
+            }
+
+            maximizedCallback = callback;
+            ipcRenderer.on('window-maximized', maximizedCallback);
+        },
+        
+        onUnmaximized: (callback) => {
+            if (unmaximizedCallback) {
+                ipcRenderer.off('window-unmaximized', unmaximizedCallback);
+            }
+
+            unmaximizedCallback = callback;
+            ipcRenderer.on('window-unmaximized', unmaximizedCallback);
+        }
     },
 
     dialog: {
         showFolderDialog: (defaultPath) => ipcRenderer.invoke('show-folder-dialog', defaultPath)
     },
 
-    // Opens page by specified URL in user's default browser:
     openPage: (pageURL) => {
         shell.openExternal(pageURL);
     },
 
-    // Gets current refresh page interval in miliseconds
-    // getInterval: () => {
-    //     getRefreshIntervalMs();
-    // },
+    getInterval: () => {
+        return getRefreshIntervalMs();
+    },
+});
+
+window.addEventListener('beforeunload', () => {
+    if (maximizedCallback) {
+        ipcRenderer.off('window-maximized', maximizedCallback);
+        maximizedCallback = null;
+    }
+    
+    if (unmaximizedCallback) {
+        ipcRenderer.off('window-unmaximized', unmaximizedCallback);
+        unmaximizedCallback = null;
+    }
 });

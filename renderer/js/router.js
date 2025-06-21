@@ -3,21 +3,22 @@ import appearanceManager from './appearanceManager.js';
 
 const HELP_URL = 'https://github.com/FlowForgeTeam/PClarity/blob/main/README.md';
 
+let intervalId = null;
+let currentPage = null;
+let sidebarListeners = [];
+let viewModeListeners = [];
+let cardListeners = [];
+let settingsListeners = [];
+
 async function initializeApp() {
     try {
-        
         await appearanceManager.initializeAppearance();
-
         await loadPage('homepage');
-
         initializeTitlebar();
-
     } catch (error) {
         console.error('Error initializing app:', error);
     }
 }
-
-let intervalId = null;
 
 async function loadPage(pageName, contextData = {}) {
     try {
@@ -27,27 +28,35 @@ async function loadPage(pageName, contextData = {}) {
             intervalId = null;
         }
 
+        cleanupEventListeners();
+
         if (pageName === 'help') {
             window.api.openPage(HELP_URL);
             return;
         }
+
+        currentPage = pageName;
         
         if (pageName === 'homepage' || pageName === 'statistics') {
-
-            // fetchRenderAndInitializePage(pageName, contextData);
-            intervalId = setInterval(() => {
-                fetchRenderAndInitializePage(pageName, contextData);
-            // }, window.api.getInterval());
+            // Initial load
+            await fetchRenderAndInitializePage(pageName, contextData);
+            
+            // Set up interval for updates
+            intervalId = setInterval(async () => {
+                if (currentPage === pageName) {
+                    await fetchRenderAndInitializePage(pageName, contextData);
+                }
             }, 2000);
-
         } else {
-            renderAndInitializePage(pageName, contextData);
-
-            if (pageName === 'themes')
+            await renderAndInitializePage(pageName, contextData);
+            
+            if (pageName === 'themes') {
                 appearanceManager.bindAppearanceEvents();
-
-            if (pageName === 'settings')
-                bindSettingsEvents();
+            }
+            
+            if (pageName === 'settings') {
+                await bindSettingsEvents();
+            }
         }
 
         if (pageName === 'statistics') {
@@ -58,6 +67,32 @@ async function loadPage(pageName, contextData = {}) {
     } catch (error) {
         console.error('Error loading page:', error);
     }
+}
+
+function cleanupEventListeners() {
+    // Clean up sidebar listeners
+    sidebarListeners.forEach(({ element, handler }) => {
+        element.removeEventListener('click', handler);
+    });
+    sidebarListeners = [];
+
+    // Clean up view mode listeners
+    viewModeListeners.forEach(({ element, handler }) => {
+        element.removeEventListener('change', handler);
+    });
+    viewModeListeners = [];
+
+    // Clean up card listeners
+    cardListeners.forEach(({ element, handler }) => {
+        element.removeEventListener('click', handler);
+    });
+    cardListeners = [];
+
+    // Clean up settings listeners
+    settingsListeners.forEach(({ element, event, handler }) => {
+        element.removeEventListener(event, handler);
+    });
+    settingsListeners = [];
 }
 
 async function renderAndInitializePage(pageName, contextData) {
@@ -78,37 +113,50 @@ async function renderAndInitializePage(pageName, contextData) {
         }
     });
 
-    initializeTitlebar();
     bindSidebarEvents();
 }
 
 async function fetchRenderAndInitializePage(pageName, contextData) {
-    const report = await window.api.getReport();
-
-    let programsData = {
-        monitoredPrograms: report,
-    };
-
-    contextData = {...contextData, ...programsData};
-
-    renderAndInitializePage(pageName, contextData);
+    try {
+        const report = await window.api.getReport();
+        const programsData = {
+            monitoredPrograms: report,
+        };
+        contextData = {...contextData, ...programsData};
+        await renderAndInitializePage(pageName, contextData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        // Render page without data on error
+        await renderAndInitializePage(pageName, contextData);
+    }
 }
 
 // TODO: HERE THE EVENT BREAKS CSS TRANSITIONS (IN SIDEBAR BG CHANGE) DUE TO THE PAGE RELOAD. FIX LATER
-function bindSidebarEvents () {
+function bindSidebarEvents() {
     const sidebarItems = document.querySelectorAll('.sidebar-item');
     sidebarItems.forEach((item) => {
-        item.addEventListener('click', async (event) => {
-            let currentItem = event.currentTarget;
-
+        const handler = async (event) => {
+            const currentItem = event.currentTarget;
             const pageToLoad = currentItem.getAttribute('data-page');
-            await loadPage(pageToLoad);
-
-            let activeItem = document.querySelector('.sidebar-item.active');
-            activeItem.classList.remove('active');
             
-            document.querySelector(`[data-page="${pageToLoad}"]`).classList.add('active');
-        });
+            if (pageToLoad) {
+                await loadPage(pageToLoad);
+                
+                // Update active state
+                const activeItem = document.querySelector('.sidebar-item.active');
+                if (activeItem) {
+                    activeItem.classList.remove('active');
+                }
+                
+                const newActiveItem = document.querySelector(`[data-page="${pageToLoad}"]`);
+                if (newActiveItem) {
+                    newActiveItem.classList.add('active');
+                }
+            }
+        };
+        
+        item.addEventListener('click', handler);
+        sidebarListeners.push({ element: item, handler });
     });
 }
 
@@ -121,25 +169,28 @@ function bindViewModeEvents() {
     if (!statisticsContent) return;
     
     viewModeInputs.forEach((input, index) => {
-        input.addEventListener('change', (event) => {
+        const handler = (event) => {
             if (event.target.checked) {
                 statisticsContent.classList.remove('view-mode-list', 'view-mode-grid', 'view-mode-calendar');
 
                 switch(index) {
-                    case 0: // List view
+                    case 0:
                         statisticsContent.classList.add('view-mode-list');
                         break;
-                    case 1: // Grid/Cards view
+                    case 1:
                         statisticsContent.classList.add('view-mode-grid');
                         break;
-                    case 2: // Calendar view
+                    case 2:
                         statisticsContent.classList.add('view-mode-calendar');
                         break;
                 }
                 
                 console.log(`View mode changed to: ${index === 0 ? 'list' : index === 1 ? 'grid' : 'calendar'}`);
             }
-        });
+        };
+        
+        input.addEventListener('change', handler);
+        viewModeListeners.push({ element: input, handler });
     });
 }
 
@@ -149,13 +200,16 @@ function bindAppCardEvents() {
     const appCards = document.querySelectorAll('.app-card');
     
     appCards.forEach(card => {
-        card.addEventListener('click', async (event) => {
+        const handler = async (event) => {
             const appTitle = event.currentTarget.getAttribute('data-app-title');
             if (appTitle && appTitle !== '—') {
                 console.log(`App card clicked: ${appTitle}`);
                 await loadPage('details', { appName: appTitle });
             }
-        });
+        };
+        
+        card.addEventListener('click', handler);
+        cardListeners.push({ element: card, handler });
     });
 }
 
@@ -229,39 +283,39 @@ function getNestedValue(obj, path) {
 async function bindSettingsEvents() {
     console.log('Binding settings events...');
 
-    // Load current settings values
     await loadSettingsValues();
 
     // Reset button
     const resetButton = document.querySelector('#reset-settings');
     if (resetButton) {
-        resetButton.addEventListener('click', async () => {
+        const resetHandler = async () => {
             if (confirm('Are you sure you want to reset all settings to defaults?')) {
                 await window.api.settings.reset();
                 await appearanceManager.initializeAppearance();
-                
                 await loadPage('settings');
             }
-        });
+        };
+        
+        resetButton.addEventListener('click', resetHandler);
+        settingsListeners.push({ element: resetButton, event: 'click', handler: resetHandler });
     }
 
     // Time unit buttons
     const timeUnitButtons = document.querySelectorAll('.time-unit');
     timeUnitButtons.forEach(button => {
-        button.addEventListener('click', async (event) => {
+        const clickHandler = async (event) => {
             event.preventDefault();
             
-            // Remove active class from all buttons
             timeUnitButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
             button.classList.add('active');
             
-            // Save the selected unit
             const unit = button.getAttribute('data-unit');
             await window.api.settings.set('monitoring.refreshIntervalUnit', unit);
             console.log(`Time unit set to: ${unit}`);
-        });
+        };
+        
+        button.addEventListener('click', clickHandler);
+        settingsListeners.push({ element: button, event: 'click', handler: clickHandler });
     });
 
     // Browse folder button
@@ -269,7 +323,7 @@ async function bindSettingsEvents() {
     const logFolderInput = document.querySelector('#log-folder');
     
     if (browseButton && logFolderInput) {
-        browseButton.addEventListener('click', async () => {
+        const browseHandler = async () => {
             try {
                 const currentPath = logFolderInput.value || '';
                 const selectedPath = await window.api.dialog.showFolderDialog(currentPath);
@@ -283,37 +337,57 @@ async function bindSettingsEvents() {
                 console.error('Error selecting folder:', error);
                 alert('Error selecting folder. Please try again.');
             }
-        });
+        };
+        
+        browseButton.addEventListener('click', browseHandler);
+        settingsListeners.push({ element: browseButton, event: 'click', handler: browseHandler });
     }
 
-    // Regular settings inputs (checkboxes, text inputs, etc.)
+    // Regular settings inputs
     const settingsInputs = document.querySelectorAll('[data-setting]');
     settingsInputs.forEach(input => {
         const settingKey = input.getAttribute('data-setting');
         
+        let handler;
+        let eventType;
+        
         if (input.type === 'checkbox') {
-            input.addEventListener('change', async (event) => {
+            eventType = 'change';
+            handler = async (event) => {
                 const value = event.target.checked;
                 await window.api.settings.set(settingKey, value);
                 console.log(`Setting ${settingKey} set to:`, value);
-            });
+            };
         } else if (input.type === 'number') {
-            input.addEventListener('change', async (event) => {
+            eventType = 'change';
+            handler = async (event) => {
                 const value = parseInt(event.target.value, 10);
                 if (!isNaN(value) && value > 0) {
                     await window.api.settings.set(settingKey, value);
                     console.log(`Setting ${settingKey} set to:`, value);
                 }
-            });
+            };
         } else {
-            input.addEventListener('change', async (event) => {
+            eventType = 'change';
+            handler = async (event) => {
                 const value = event.target.value;
                 await window.api.settings.set(settingKey, value);
                 console.log(`Setting ${settingKey} set to:`, value);
-            });
+            };
         }
+        
+        input.addEventListener(eventType, handler);
+        settingsListeners.push({ element: input, event: eventType, handler });
     });
 }
+
+window.addEventListener('beforeunload', () => {
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+    cleanupEventListeners();
+});
 
 initializeApp();
 
