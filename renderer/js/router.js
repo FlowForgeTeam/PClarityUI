@@ -102,6 +102,7 @@ async function renderAndInitializePage(pageName, contextData) {
     document.getElementById('content').innerHTML = html;
 
     bindSidebarEvents();
+    initializeTitlebar();
 }
 
 async function fetchRenderAndInitializePage(pageName, contextData) {
