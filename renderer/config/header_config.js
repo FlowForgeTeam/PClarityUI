@@ -17,9 +17,17 @@ const headerConfig = {
             { icon: 'calendar-icon.svg', name: 'calendar' }
         ]
     },
+    details : {
+        title: 'App details',
+        hasSearchBar: false,
+        hasViewModes: false,
+        // viewModes: {
+        //     icon: 'oaoaoa'
+        // }
+    },
     welfare: {
         title: 'System welfare',
-        hasSearchBar: true,
+        hasSearchBar: false,
         hasViewModes: false,
         // viewModes: {
         //     icon: 'oaoaoa'
