@@ -1,42 +1,51 @@
-let titlebarInitialized = false;
-
+let titlebarListeners = [];
 
 function initializeTitlebar() {
-    if (titlebarInitialized) {
-        return;
-    }
+    cleanupTitlebarListeners();
 
     const minimizeButton = document.getElementById('minimize-button');
     const maximizeButton = document.getElementById('maximize-button');
     const closeButton = document.getElementById('close-button');
     const titlebarDragArea = document.querySelector('.titlebar-drag-area');
 
+    const minimizeHandler = () => {
+        console.log('Minimize button clicked');
+        window.api.window.minimize();
+    };
+
+    const maximizeHandler = () => {
+        console.log('Maximize button clicked');
+        window.api.window.maximize();
+    };
+
+    const closeHandler = () => {
+        console.log('Close button clicked');
+        window.api.window.close();
+    };
+
+    const dragHandler = () => {
+        console.log('Titlebar double-clicked');
+        window.api.window.maximize();
+    };
+
     if (minimizeButton) {
-        minimizeButton.addEventListener('click', () => {
-            console.log('Minimize button clicked');
-            window.api.window.minimize();
-        });
+        minimizeButton.addEventListener('click', minimizeHandler);
+        titlebarListeners.push({ element: minimizeButton, event: 'click', handler: minimizeHandler });
     }
 
     if (maximizeButton) {
-        maximizeButton.addEventListener('click', () => {
-            console.log('Maximize button clicked');
-            window.api.window.maximize();
-        });
+        maximizeButton.addEventListener('click', maximizeHandler);
+        titlebarListeners.push({ element: maximizeButton, event: 'click', handler: maximizeHandler });
     }
 
     if (closeButton) {
-        closeButton.addEventListener('click', () => {
-            console.log('Close button clicked');
-            window.api.window.close();
-        });
+        closeButton.addEventListener('click', closeHandler);
+        titlebarListeners.push({ element: closeButton, event: 'click', handler: closeHandler });
     }
 
     if (titlebarDragArea) {
-        titlebarDragArea.addEventListener('dblclick', () => {
-            console.log('Titlebar double-clicked');
-            window.api.window.maximize();
-        });
+        titlebarDragArea.addEventListener('dblclick', dragHandler);
+        titlebarListeners.push({ element: titlebarDragArea, event: 'dblclick', handler: dragHandler });
     }
 
     window.api.window.onMaximized(() => {
@@ -46,8 +55,13 @@ function initializeTitlebar() {
     window.api.window.onUnmaximized(() => {
         updateMaximizeIcon(false);
     });
+}
 
-    titlebarInitialized = true;
+function cleanupTitlebarListeners() {
+    titlebarListeners.forEach(({ element, event, handler }) => {
+        element.removeEventListener(event, handler);
+    });
+    titlebarListeners = [];
 }
 
 function updateMaximizeIcon(isMaximized) {
@@ -67,4 +81,4 @@ function updateMaximizeIcon(isMaximized) {
     }
 }
 
-export { initializeTitlebar };
+export { initializeTitlebar, cleanupTitlebarListeners };

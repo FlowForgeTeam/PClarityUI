@@ -877,8 +877,9 @@ table th {
 
 .app-card-stats {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
@@ -887,6 +888,7 @@ table th {
 
 .stat-item {
   white-space: nowrap;
+  line-height: 1.2;
 }
 
 .stat-divider {
@@ -940,6 +942,282 @@ table th {
 .view-mode-calendar .monitored-programs,
 .view-mode-calendar .pc-monitored-cards-grid {
   display: none !important;
+}
+
+/* ===== APP DETAILS PAGE STYLES ===== */
+
+.app-details-container {
+    margin-top: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* Section 1: Main App Information Card */
+.app-info-section {
+    /* padding: var(--spacing-xl); */
+    margin-bottom: var(--spacing-xl);
+}
+
+.app-details-header {
+    display: flex;
+    gap: var(--spacing-xl);
+    align-items: flex-start;
+}
+
+/* Left Side: Icon, Stats, and Buttons */
+.icon-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    min-width: 200px;
+    flex-shrink: 0;
+}
+
+.app-icon-large {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.app-stats-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+    width: 100%;
+}
+
+.stat-summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.start-tracking-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+}
+
+.start-tracking-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: var(--color-obj-accent);
+    color: var(--color-text-primary);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.start-tracking-btn:hover {
+    background-color: var(--color-obj-primary);
+}
+
+.action-buttons-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-obj-secondary);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background-color: var(--color-obj-secondary);
+    color: var(--color-text-primary);
+}
+
+/* Right Side: App Content */
+.app-details-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-details-content h1 {
+    font-size: var(--font-size-xxl);
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.app-subtitle {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    margin: 0 0 var(--spacing-lg) 0;
+}
+
+.app-description {
+    margin-bottom: var(--spacing-lg);
+}
+
+.app-description p {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.app-technical-info {
+    margin-bottom: var(--spacing-xl);
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    gap: var(--spacing-sm);
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    word-break: break-all;
+}
+
+/* Current Usage Cards (Inside First Section) */
+.current-usage-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: auto;
+}
+
+.current-usage-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-obj-secondary);
+    border-radius: var(--border-radius-sm);
+}
+
+.usage-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cpu-icon {
+    background-color: var(--color-obj-secondary);
+    color: var(--color-text-primary);
+}
+
+.gpu-icon {
+    background-color: var(--color-obj-secondary);
+    color: var(--color-text-primary);
+}
+
+.mem-icon {
+    background-color: var(--color-obj-secondary);
+    color: var(--color-text-primary);
+}
+
+.usage-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.usage-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: 4px;
+    display: block;
+}
+
+.usage-value {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Section 2: Previous Sessions */
+.sessions-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.sessions-section h2 {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    margin: 0 0 var(--spacing-lg) 0;
+    font-weight: var(--font-weight-medium);
+}
+
+.sessions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sessions-table th,
+.sessions-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+}
+
+.sessions-table th {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-md);
+}
+
+.sessions-table td {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
 }
 
 /* made assumption that all icons must be of primary test color */
