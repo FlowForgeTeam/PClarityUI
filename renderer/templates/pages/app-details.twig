@@ -2,38 +2,202 @@
 {% block content %}
     <div class="app-details-container">
         {% if appName %}
-            <h1>{{ appName }}</h1>
-            <p>Detailed information for {{ appName }} will be displayed here.</p>
-            
-            <div class="app-details-content">
-                <h2>App Information</h2>
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <span class="detail-label">Application Name:</span>
-                        <span class="detail-value">{{ appName }}</span>
+            <!-- Section 1: App Information -->
+            <div class="app-info-section">
+                <div class="app-details-header">
+                    <div class="icon-section">
+                        <div class="app-icon-large">
+                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="vscode-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#0078d4"/>
+                                        <stop offset="100%" style="stop-color:#00bcf2"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect width="120" height="120" rx="8" fill="url(#vscode-gradient)"/>
+                                <path d="M85 30L45 70L25 50L15 60L45 90L95 40L85 30Z" fill="white"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="app-stats-summary">
+                            <div class="stat-summary-item">
+                                <div class="stat-label">Active for</div>
+                                <div class="stat-value">{{ appData.activeFor | default('3:45:11') }}</div>
+                            </div>
+                            <div class="stat-summary-item">
+                                <div class="stat-label">Overall Usage</div>
+                                <div class="stat-value">{{ appData.overallUsage | default('High') }}</div>
+                            </div>
+                            <div class="stat-summary-item">
+                                <div class="stat-label">Total time</div>
+                                <div class="stat-value">{{ appData.totalTime | default('1045 h') }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="start-tracking-section">
+                            <button class="start-tracking-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5,3 19,12 5,21 5,3"></polygon>
+                                </svg>
+                                Start Tracking
+                            </button>
+                            <div class="action-buttons-row">
+                                <button class="action-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="m9,12 l3 3 l6 -6"></path>
+                                    </svg>
+                                </button>
+                                <button class="action-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="9" cy="9" r="2"></circle>
+                                        <path d="m21,15-3.086-3.086a2,2 0 0,0 -2.828,0L6,21"></path>
+                                    </svg>
+                                </button>
+                                <button class="action-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                        <circle cx="6" cy="6" r="3"></circle>
+                                        <circle cx="6" cy="18" r="3"></circle>
+                                        <circle cx="18" cy="6" r="3"></circle>
+                                        <circle cx="18" cy="18" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Status:</span>
-                        <span class="detail-value">Loading...</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Resource Usage:</span>
-                        <span class="detail-value">Loading...</span>
+                    
+                    <div class="app-details-content">
+                        <h1>{{ appName }}</h1>
+                        <p class="app-subtitle">About this app</p>
+                        
+                        <div class="app-description">
+                            <p>Visual Studio is an integrated development environment (IDE) developed by Microsoft. It is used to develop computer programs including websites, web apps, web services and mobile apps.</p>
+                        </div>
+                        
+                        <div class="app-technical-info">
+                            <div class="info-row">
+                                <span class="info-label">Exec name:</span>
+                                <span class="info-value">{{ appData.execName | default('Code.exe') }}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">App path:</span>
+                                <span class="info-value">{{ appData.appPath | default('C:\\Users\\LUMIN4X\\AppData\\Local\\Programs\\Microsoft\\VS') }}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">PID:</span>
+                                <span class="info-value">{{ appData.pid | default('1237') }}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">PPID:</span>
+                                <span class="info-value">{{ appData.ppid | default('1054') }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="current-usage-section">
+                            <div class="current-usage-card">
+                                <div class="usage-icon cpu-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                    </svg>
+                                </div>
+                                <div class="usage-info">
+                                    <div class="usage-label">Current CPU Usage</div>
+                                    <div class="usage-value">{{ appData.currentCpu | default('14') }}%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="current-usage-card">
+                                <div class="usage-icon gpu-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="usage-info">
+                                    <div class="usage-label">Current GPU Usage</div>
+                                    <div class="usage-value">{{ appData.currentGpu | default('14') }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="current-usage-card">
+                                <div class="usage-icon mem-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                                    </svg>
+                                </div>
+                                <div class="usage-info">
+                                    <div class="usage-label">Current MEM Usage</div>
+                                    <div class="usage-value">{{ appData.currentMem | default('11 433 Mb') }}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="app-actions">
-                    <button onclick="history.back()" class="back-button">
-                        ← Back to App Statistics
-                    </button>
-                </div>
+            </div>
+
+            <!-- Section 2: Previous Sessions -->
+            <div class="sessions-section">
+                <h2>Previous sessions</h2>
+                <table class="sessions-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total duration</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Peak CPU</th>
+                            <th>Peak GPU</th>
+                            <th>Peak MEM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in appData.sessions | default([
+                            {
+                                date: '16.06.2025',
+                                duration: '4:05:33',
+                                start: '12:44',
+                                end: '16:50',
+                                peakCpu: '15%',
+                                peakGpu: '12%',
+                                peakMem: '22 432 Mb'
+                            },
+                            {
+                                date: '16.06.2025',
+                                duration: '1:54:12',
+                                start: '10:15',
+                                end: '12:09',
+                                peakCpu: '18%',
+                                peakGpu: '11%',
+                                peakMem: '16 232 Mb'
+                            },
+                            {
+                                date: '16.06.2025',
+                                duration: '1:54:12',
+                                start: '10:15',
+                                end: '12:09',
+                                peakCpu: '18%',
+                                peakGpu: '11%',
+                                peakMem: '16 232 Mb'
+                            }
+                        ]) %}
+                        <tr>
+                            <td>{{ session.date }}</td>
+                            <td>{{ session.duration }}</td>
+                            <td>{{ session.start }}</td>
+                            <td>{{ session.end }}</td>
+                            <td>{{ session.peakCpu }}</td>
+                            <td>{{ session.peakGpu }}</td>
+                            <td>{{ session.peakMem }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         {% else %}
             <h1>App Details</h1>
             <p>No app selected. Please go back and select an app to view its details.</p>
-            <button onclick="history.back()" class="back-button">
-                ← Back to App Statistics
-            </button>
         {% endif %}
     </div>
 {% endblock %}
