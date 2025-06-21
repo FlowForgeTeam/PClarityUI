@@ -1,11 +1,9 @@
 // Service for parsing data recieved from service
 // Data comes to service as js-objects
 // and leaves as js-objects that can be simply displayed
-const { fs } = require('fs');
-const { path } = require('path');
-const { processParams } = require('../renderer/config/monitored_programms_config.js');
 const fs = require('fs');
 const path = require('path');
+const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
 // Path to process icons folder - adjust this to match your setup
 const PROCESS_ICONS_PATH = path.join(process.cwd(), 'Process_icons');
