@@ -1,5 +1,10 @@
 <div class="monitored-programs">
     <table>
+        <colgroup>
+            {% for header in tableHeaders %}
+                <col id="{{ header.value }}">
+            {% endfor %}
+        </colgroup>
         <thead>
             <tr>
                 {% for header in tableHeaders %}
@@ -12,16 +17,20 @@
                 <tr>
                     {% for header in tableHeaders %}
                         <td>
+                            {% set value = program[header.name] %}
                             {% if header.name == "Active" %}
-                                <div class="is-program-active
-                                {% if program[header.name] == true %}
+                                <div class="is-program-active">
+                                {% if value == true %}
                                     yes
                                 {% else %}
                                     no
                                 {% endif %}"></div>
+                            {% elseif header.name == "CPU" %}
+                                {{ value|round(2, 'common') }}{{ header.unit }}
+                            {% elseif header.name == "RAM" %}
+                                {{ (value / 1000000)|round(2, 'common') }}{{ header.unit }}
                             {% else %}
-                                {{ program[header.name] }}{% if header.unit %}{{ header.unit }}
-                                {% endif %}
+                                    {{ value }}{{ header.unit }}
                             {% endif %}
                         </td>
                     {% endfor %}

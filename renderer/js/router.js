@@ -34,6 +34,7 @@ async function loadPage(pageName, contextData = {}) {
         
         if (pageName === 'homepage' || pageName === 'statistics') {
 
+            // fetchRenderAndInitializePage(pageName, contextData);
             intervalId = setInterval(() => {
                 fetchRenderAndInitializePage(pageName, contextData);
             // }, window.api.getInterval());

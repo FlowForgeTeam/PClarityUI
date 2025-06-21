@@ -25,6 +25,11 @@
   /* Header */
   --header-height: 130px;
   --header-padding: 22px 66px;
+
+  /* Table */
+  --table-cell-width-sm: 60px;
+  --table-cell-width-md: 120px;
+  --table-cell-width-lg: 315px;
   
   /* Spacing */
   --spacing-xs: 8px;
