@@ -7,7 +7,7 @@ const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU'];
 const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
 const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Active for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
-function parseReport(report, paramNames = [], pageName = 'homepage') {
+function parseReport(report, paramNames = [], pageName = 'homepage', contextData = {}) {
 
     const reportComponents = ['tracked', 'currently_active'];
 
@@ -42,8 +42,15 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
             parsedReport.push(filtered);
         });
     });
+
+    let appData = null;
+    if (pageName === 'details' && contextData.appName && parsedReport.length > 0) {
+        appData = parsedReport.find(program => 
+            program.Name === contextData.appName || program.Title === contextData.appName
+        );
+    }
     
-    return {paramMap, parsedReport};
+    return {paramMap, parsedReport, appData};
 }
 
 function flattenObject(obj, parentKey = '', result = {}) {
@@ -62,4 +69,4 @@ function flattenObject(obj, parentKey = '', result = {}) {
     return result;
 }
 
-module.exports = { parseReport };
+module.exports = { parseReport }
