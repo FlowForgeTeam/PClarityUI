@@ -29,6 +29,9 @@
                                 {{ value|round(2, 'common') }}{{ header.unit }}
                             {% elseif header.name == "RAM" %}
                                 {{ (value / 1000000)|round(2, 'common') }}{{ header.unit }}
+                            {% elseif header.name == "Icon" %}
+                                <img src="{{ value }}" alt=""
+                                onerror="this.onerror=null;this.src='../renderer/assets/Process_icons/default.ico';" class="process-icon">
                             {% else %}
                                     {{ value }}{{ header.unit }}
                             {% endif %}

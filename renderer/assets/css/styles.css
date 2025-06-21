@@ -1847,6 +1847,12 @@ svg {
   background-color: var(--color-obj-primary);
 }
 
+/* ===== PROCESS ICONS ===== */
+.process-icon {
+  width: 24px;
+  height: 24px;
+}
+
 /* ===== THEME GRADIENTS ===== */
 
 /* Dark Themes */

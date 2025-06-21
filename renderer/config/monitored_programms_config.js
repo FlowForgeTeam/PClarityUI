@@ -1,5 +1,5 @@
 const processParams = [
-    { name: 'Icon', value: 'icon', placeholder: '💿' },
+    { name: 'Icon', value: 'icon', placeholder: '../renderer/assets/Process_icons/default.ico' },
     { name: 'Name', value: 'data.product_name', placeholder: '—'},
     { name: 'Title', value: 'data.exe_name', placeholder: '—' },
     { name: 'Path', value: 'data.exe_path', placeholder: '—' },
@@ -16,6 +16,8 @@ const processParams = [
     { name: 'Tracked', value: 'is_tracked', placeholder: false },
     { name: 'Active', value: 'is_active', placeholder: false },
     { name: 'Updated', value: 'was_updated', placeholder: false },
+    { name: 'Steady Start', value: 'steady_start', placeholder: 0 },
+    { name: 'System Start', value: 'system_start', placeholder: 0 },
 ];
 
 module.exports = { processParams };
