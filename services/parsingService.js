@@ -3,7 +3,7 @@
 // and leaves as js-objects that can be simply displayed
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
-const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU'];
+const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Active for', 'System Start'];
 const statisticsMandatoryParamNames = ['Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
 
 function parseReport(report, paramNames = [], pageName = 'homepage') {
@@ -28,8 +28,18 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
 
         processes.forEach((process) => {
             const flat = flattenObject(process);
+
             const filtered = allParamNames.reduce((acc, name) => {
-                acc[name] = flat[paramMap[name].value] || paramMap[name].placeholder;
+                if (name === 'Active for') {
+                    if ('system_start' in process) {
+                        acc[name] = calculateActiveFor(process.system_start);
+                    } else {
+                        acc[name] = paramMap[name]?.placeholder || '—';
+                    }
+                } else {
+                    const valueKey = paramMap[name]?.value;
+                    acc[name] = flat[valueKey] ?? paramMap[name]?.placeholder ?? '—';
+                }
                 return acc;
             }, {});
 
@@ -54,6 +64,26 @@ function flattenObject(obj, parentKey = '', result = {}) {
         }
     }
     return result;
+}
+
+function calculateActiveFor(startTime) {
+    const currentTime = Date.now();
+    const startTimeMs = startTime * 1000;
+    const diffMs = currentTime - startTimeMs;
+
+    if (diffMs < 0) return 'Just launched';
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
+    parts.push(`${seconds}s`);
+
+    return parts.join(' ');
 }
 
 module.exports = { parseReport };

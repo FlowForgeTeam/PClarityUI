@@ -16,6 +16,8 @@ const processParams = [
     { name: 'Tracked', value: 'is_tracked', placeholder: false },
     { name: 'Active', value: 'is_active', placeholder: false },
     { name: 'Updated', value: 'was_updated', placeholder: false },
+    { name: 'Steady Start', value: 'steady_start', placeholder: 0 },
+    { name: 'System Start', value: 'system_start', placeholder: 0 },
 ];
 
 module.exports = { processParams };
