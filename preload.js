@@ -6,6 +6,7 @@ const { templatePath } = require('./renderer/js/utils.js');
 const { callBackend } = require('./services/backendService.js');
 const settingsService = require('./services/settingsService.js');
 const { fullContext } = require('./services/contextService.js');
+const { getRefreshIntervalMs } = require('./services/refreshService.js');
 
 const routes = {
     homepage: templatePath('homepage'),
@@ -63,4 +64,9 @@ contextBridge.exposeInMainWorld('api', {
     openPage: (pageURL) => {
         shell.openExternal(pageURL);
     },
+
+    // Gets current refresh page interval in miliseconds
+    // getInterval: () => {
+    //     getRefreshIntervalMs();
+    // },
 });

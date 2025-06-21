@@ -154,6 +154,7 @@ class SettingsService {
     }
 
     getMonitoringSettings() {
+        console.log("GETTING MONITORED SETTINGS");
         return this.get('monitoring') || {};
     }
 
