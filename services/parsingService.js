@@ -23,9 +23,8 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
     const paramMap = {};
     processParams.forEach((param) => {
         const name = param.name;
-        if (allParamNames.includes(name)) {
+        if (allParamNames.includes(name))
             paramMap[name] = param;
-        }
     });
 
     let parsedReport = [];
