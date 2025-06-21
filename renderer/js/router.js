@@ -32,6 +32,7 @@ async function loadPage(pageName, contextData = {}) {
 
         if (pageName === 'help') {
             window.api.openPage(HELP_URL);
+            bindSidebarEvents();
             return;
         }
 
@@ -115,6 +116,10 @@ async function renderAndInitializePage(pageName, contextData) {
 
     bindSidebarEvents();
 }
+
+function initializeTable() {
+    
+} 
 
 async function fetchRenderAndInitializePage(pageName, contextData) {
     try {

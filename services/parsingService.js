@@ -3,7 +3,7 @@
 // and leaves as js-objects that can be simply displayed
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
-const homepageMandatoryParamNames = ['Icon', 'Title', 'RAM', 'CPU'];
+const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU'];
 const statisticsMandatoryParamNames = ['Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
 
 function parseReport(report, paramNames = [], pageName = 'homepage') {
