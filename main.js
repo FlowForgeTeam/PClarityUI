@@ -38,7 +38,7 @@ const createWindow = () => {
     win.loadFile('./renderer/index.html');
     win.show();
 
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
 
     // For enabling DevTools
     globalShortcut.register('CommandOrControl+Shift+I', () => {

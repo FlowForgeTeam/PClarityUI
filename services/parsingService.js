@@ -4,16 +4,22 @@
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
 const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Active for', 'System Start'];
-const statisticsMandatoryParamNames = ['Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
+const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
+const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Active for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
-function parseReport(report, paramNames = [], pageName = 'homepage') {
+function parseReport(report, paramNames = [], pageName = 'homepage', contextData = {}) {
 
     const reportComponents = ['tracked', 'currently_active'];
 
-    const allParamNames = pageName === 'statistics' 
-        ? [...statisticsMandatoryParamNames, ...paramNames] 
-        : [...homepageMandatoryParamNames, ...paramNames];
-
+    let allParamNames;
+    if (pageName === 'details') {
+        allParamNames = [...detailsMandatoryParamNames, ...paramNames];
+    } else if (pageName === 'statistics') {
+        allParamNames = [...statisticsMandatoryParamNames, ...paramNames];
+    } else {
+        allParamNames = [...homepageMandatoryParamNames, ...paramNames];
+    }
+    
     const paramMap = {};
     processParams.forEach((param) => {
         const name = param.name;
@@ -46,8 +52,15 @@ function parseReport(report, paramNames = [], pageName = 'homepage') {
             parsedReport.push(filtered);
         });
     });
+
+    let appData = null;
+    if (pageName === 'details' && contextData.appName && parsedReport.length > 0) {
+        appData = parsedReport.find(program => 
+            program.Name === contextData.appName || program.Title === contextData.appName
+        );
+    }
     
-    return {paramMap, parsedReport};
+    return {paramMap, parsedReport, appData};
 }
 
 function flattenObject(obj, parentKey = '', result = {}) {
@@ -86,4 +99,4 @@ function calculateActiveFor(startTime) {
     return parts.join(' ');
 }
 
-module.exports = { parseReport };
+module.exports = { parseReport }
