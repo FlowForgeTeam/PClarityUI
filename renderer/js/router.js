@@ -223,10 +223,10 @@ function bindAppCardEvents() {
     
     appCards.forEach(card => {
         const handler = async (event) => {
-            const appTitle = event.currentTarget.getAttribute('data-app-title');
-            if (appTitle && appTitle !== '—') {
-                console.log(`App card clicked: ${appTitle}`);
-                await loadPage('details', { appName: appTitle });
+            const appName = event.currentTarget.getAttribute('data-app-name');
+            if (appName && appName !== '—') {
+                console.log(`App card clicked: ${appName}`);
+                await loadPage('details', { appName: appName });
             }
         };
         

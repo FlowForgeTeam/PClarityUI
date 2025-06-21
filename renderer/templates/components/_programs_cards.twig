@@ -1,6 +1,7 @@
 <div class="pc-monitored-cards-grid">
     {% for program in monitoredProgramsReport %}
-        <div class="app-card" data-app-title="{{ program['Title'] }}">
+        {% set displayName = program['Name'] ?: program['Title'] %}
+        <div class="app-card" data-app-name="{{ displayName }}">
             <div class="app-card-top">
                 <div class="app-card-stats">
                     <span class="stat-item">RAM: {{ program['RAM'] }}</span>
@@ -15,7 +16,7 @@
                 </div>
             </div>
             <div class="app-card-content">
-                <h3 class="app-card-title">{{ program['Title'] }}</h3>
+                <h3 class="app-card-title">{{ displayName }}</h3>
             </div>
         </div>
     {% endfor %}

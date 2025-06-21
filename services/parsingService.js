@@ -4,16 +4,22 @@
 const { processParams } = require('../renderer/config/monitored_programms_config.js');
 
 const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU'];
-const statisticsMandatoryParamNames = ['Icon', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
+const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
+const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Active for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
 function parseReport(report, paramNames = [], pageName = 'homepage') {
 
     const reportComponents = ['tracked', 'currently_active'];
 
-    const allParamNames = pageName === 'statistics' 
-        ? [...statisticsMandatoryParamNames, ...paramNames] 
-        : [...homepageMandatoryParamNames, ...paramNames];
-
+    let allParamNames;
+    if (pageName === 'details') {
+        allParamNames = [...detailsMandatoryParamNames, ...paramNames];
+    } else if (pageName === 'statistics') {
+        allParamNames = [...statisticsMandatoryParamNames, ...paramNames];
+    } else {
+        allParamNames = [...homepageMandatoryParamNames, ...paramNames];
+    }
+    
     const paramMap = {};
     processParams.forEach((param) => {
         const name = param.name;

@@ -1,5 +1,5 @@
 const processParams = [
-    { name: 'Icon', value: 'icon', placeholder: '🖼️' },
+    { name: 'Icon', value: 'icon', placeholder: '💿' },
     { name: 'Name', value: 'data.product_name', placeholder: '—'},
     { name: 'Title', value: 'data.exe_name', placeholder: '—' },
     { name: 'Path', value: 'data.exe_path', placeholder: '—' },

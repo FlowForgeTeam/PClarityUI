@@ -948,7 +948,7 @@ table th {
 
 .app-details-container {
     margin-top: var(--spacing-xl);
-    max-width: 1200px;
+    max-width: 1050px; /* FIX LATER: Make this dynamic */
     margin: 0 auto;
     padding: 0;
 }
