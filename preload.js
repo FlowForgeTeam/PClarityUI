@@ -23,9 +23,10 @@ let maximizedCallback = null;
 let unmaximizedCallback = null;
 
 contextBridge.exposeInMainWorld('api', {
-    renderPage: async (pageName, contextData = {}) => {
-        console.log(`Rendering ${pageName} with ${contextData}`);
-        const templatePath = routes[pageName];
+    renderPage: async (templateName, contextData = {}, pageName) => {
+        pageName = pageName || templateName;
+        console.log(`Rendering component ${templateName} for ${pageName}`);
+        const templatePath = routes[templateName];
         const context = fullContext(pageName, contextData);
 
         return new Promise((resolve, reject) => {

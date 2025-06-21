@@ -45,7 +45,7 @@ async function loadPage(pageName, contextData = {}) {
             // Set up interval for updates
             intervalId = setInterval(async () => {
                 if (currentPage === pageName)
-                    await renderTable(contextData);
+                    await renderTable(pageName, contextData);
             }, 2000);
 
         } else {
@@ -121,7 +121,8 @@ async function getProgramsData(contextData) {
     return {...contextData, ...programsData};
 }
 
-async function renderTable(contextData) {
+async function renderTable(pageName, contextData) {
+    console.log(`Render table for ${pageName}`);
     try {
         const wrapper = document.querySelector('.monitored-programs');
         const scrollX = wrapper ? wrapper.scrollLeft : 0;
@@ -130,7 +131,7 @@ async function renderTable(contextData) {
 
         const componentName = 'programs_list';
 
-        const html = await api.renderPage(componentName, contextData);
+        const html = await api.renderPage(componentName, contextData, pageName);
         document.querySelector('.monitored-programs').innerHTML = html;
 
         requestAnimationFrame(() => {
