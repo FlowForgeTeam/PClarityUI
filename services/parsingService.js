@@ -49,7 +49,7 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
                     if ('data.exe_name' in flat) {
                         acc[name] = getIconPath(flat['data.exe_name']);
                     } else {
-                        acc[name] = getIconPath(paramMap[name]?.placeholder);
+                        paramMap[name]?.placeholder;
                     }
                 } else {
                     const valueKey = paramMap[name]?.value;
