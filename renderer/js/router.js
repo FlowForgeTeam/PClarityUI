@@ -37,7 +37,7 @@ async function loadPage(pageName, contextData = {}) {
             intervalId = setInterval(() => {
                 fetchRenderAndInitializePage(pageName, contextData);
             // }, window.api.getInterval());
-            }, 1000);
+            }, 2000);
 
         } else {
             renderAndInitializePage(pageName, contextData);
@@ -60,8 +60,22 @@ async function loadPage(pageName, contextData = {}) {
 }
 
 async function renderAndInitializePage(pageName, contextData) {
+    const wrapper = document.querySelector('.main-wrapper');
+    const scrollX = wrapper ? wrapper.scrollLeft : 0;
+    const scrollY = wrapper ? wrapper.scrollTop : 0;
+
     const html = await api.renderPage(pageName, contextData);
     document.getElementById('content').innerHTML = html;
+
+    requestAnimationFrame(() => {
+        const newWrapper = document.querySelector('.main-wrapper');
+        if (newWrapper) {
+            requestAnimationFrame(() => {
+                newWrapper.scrollLeft = scrollX;
+                newWrapper.scrollTop = scrollY;
+            });
+        }
+    });
 
     initializeTitlebar();
     bindSidebarEvents();

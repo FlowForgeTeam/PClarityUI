@@ -8,8 +8,11 @@ const {
 let client = null;
 let isConnected = false;
 let connectPromise = null;
+let buffer = '';
+let currentResolve = null;
+let currentReject = null;
 
-function connectToBackend(params) {
+function connectToBackend() {
     if (isConnected && client) return Promise.resolve();
 
     if (!connectPromise) {
@@ -19,6 +22,25 @@ function connectToBackend(params) {
                 isConnected = true;
                 resolve();
             });
+
+            if (!client.listenerCount('data')) {
+                client.on('data', (data) => {
+                    buffer += data.toString();
+                
+                    if (buffer.includes(RESPONSE_DELIMITER)) {
+                        try {
+                            const parsed = JSON.parse(buffer);
+                            currentResolve?.(parsed);
+                        } catch (err) {
+                            currentReject?.(`Failed to parse JSON: ${err}`);
+                        } finally {
+                            buffer = '';
+                            currentResolve = null;
+                            currentReject = null;
+                        }
+                    }
+                });
+            }
 
             client.on('error', (err) => {
                 isConnected = false;
@@ -43,30 +65,19 @@ function callBackend(commandId, extra) {
         try {
             await connectToBackend();
 
+            if (currentResolve)
+                return reject('Previous request still pending.');
+
             const payload = JSON.stringify({
                 command_id: commandId,
                 extra
             });
 
-            let buffer = '';
-
-            client.on('data', (data) => {
-                const chunk = data.toString();
-                buffer += chunk;
-
-                if (buffer.includes(RESPONSE_DELIMITER)) {
-                    try {
-                        const parsed = JSON.parse(buffer);
-                        resolve(parsed);
-                    } catch (err) {
-                        reject(`Failed to parse JSON: ${err}`);
-                    }
-                }
-            });
-
+            currentResolve = resolve;
+            currentReject = reject;
             client.write(payload);
 
-        } catch (error) {
+        } catch (err) {
             reject(`Failed to connect/send: ${err}`);
         }
     });
