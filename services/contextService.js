@@ -6,6 +6,7 @@ const { sidebarNavItems, sidebarFooterItems } = require('../renderer/config/side
 const { headerConfig } = require('../renderer/config/header_config.js');
 // const { themesConfig } = require('../renderer/config/themes_config.js');
 const { appearanceConfig, themesConfig } = require('../renderer/config/appearance_config.js');
+const { parametersSettings } = require('../renderer/config/param_settings_config.js');
 const { parseReport } = require('./parsingService');
 
 const reportProperty = 'monitoredPrograms';
@@ -30,6 +31,7 @@ function fullContext (pageName, contextData = {}) {
         footerItems: sidebarFooterItems,
         header: headerConfig[pageName],
         appearance: appearanceConfig,
+        parametersSettings,
         colorThemes: appearanceConfig.themes,        // redundant, but for backwards compatibility
         fontFamilies: appearanceConfig.fontFamilies, // redundant
         textSizes: appearanceConfig.textSizes,       // redundant

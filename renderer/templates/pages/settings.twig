@@ -3,7 +3,20 @@
     <h2>General Settings</h2>
     
     <div class="settings-section">
-        <div class="setting-item">
+        {% for setting in parametersSettings %}
+            <div class="setting-item">
+                <div class="setting-content">
+                    <h3>{{ setting.header }}</h3>
+                    <p>{{setting.explanation}}</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" data-setting="monitoring.{{ setting.setting-name }}">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        {% endfor %}
+
+        {# <div class="setting-item">
             <div class="setting-content">
                 <h3>Track GPU utility usage over time</h3>
                 <p>Enable tracking of your GPU usage to monitor its performance during application runtime.</p>
@@ -34,7 +47,7 @@
                 <input type="checkbox" data-setting="monitoring.ramTracking">
                 <span class="toggle-slider"></span>
             </label>
-        </div>
+        </div> #}
 
         <div class="setting-item">
             <div class="setting-content">
@@ -46,7 +59,7 @@
                 <span class="toggle-slider"></span>
             </label>
         </div>
-    </div>
+    </div> 
 
     <h2>Tracker Customization</h2>
     
