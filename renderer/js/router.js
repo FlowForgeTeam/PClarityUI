@@ -17,31 +17,36 @@ async function initializeApp() {
     }
 }
 
+let intervalId = null;
+
 async function loadPage(pageName, contextData = {}) {
     try {
         
-        if (pageName === 'homepage' || pageName === 'statistics') {
-            const report = await window.api.getReport();
-            let programsData = {
-                monitoredPrograms: report,
-            }
-            contextData = {...contextData, ...programsData};
-        } else if (pageName === 'help') {
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        if (pageName === 'help') {
             window.api.openPage(HELP_URL);
             return;
         }
         
-        const html = await api.renderPage(pageName, contextData);
-        document.getElementById('content').innerHTML = html;
+        if (pageName === 'homepage' || pageName === 'statistics') {
 
-        initializeTitlebar();
+            intervalId = setInterval(() => {
+                fetchRenderAndInitializePage(pageName, contextData);
+            // }, window.api.getInterval());
+            }, 1000);
 
-        if (pageName === 'themes'){
-            appearanceManager.bindAppearanceEvents();
-        }
+        } else {
+            renderAndInitializePage(pageName, contextData);
 
-        if (pageName === 'settings') {
-            bindSettingsEvents();
+            if (pageName === 'themes')
+                appearanceManager.bindAppearanceEvents();
+
+            if (pageName === 'settings')
+                bindSettingsEvents();
         }
 
         if (pageName === 'statistics') {
@@ -52,8 +57,26 @@ async function loadPage(pageName, contextData = {}) {
     } catch (error) {
         console.error('Error loading page:', error);
     }
+}
 
+async function renderAndInitializePage(pageName, contextData) {
+    const html = await api.renderPage(pageName, contextData);
+    document.getElementById('content').innerHTML = html;
+
+    initializeTitlebar();
     bindSidebarEvents();
+}
+
+async function fetchRenderAndInitializePage(pageName, contextData) {
+    const report = await window.api.getReport();
+
+    let programsData = {
+        monitoredPrograms: report,
+    };
+
+    contextData = {...contextData, ...programsData};
+
+    renderAndInitializePage(pageName, contextData);
 }
 
 // TODO: HERE THE EVENT BREAKS CSS TRANSITIONS (IN SIDEBAR BG CHANGE) DUE TO THE PAGE RELOAD. FIX LATER
