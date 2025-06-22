@@ -42,11 +42,17 @@ function connectToBackend() {
             if (!client.listenerCount('data')) {
                 client.on('data', (data) => {
                     buffer += data.toString();
+                    console.log(data.toString());
 
                     if (buffer.includes(RESPONSE_DELIMITER)) {
                         try {
-                            const parsed = JSON.parse(buffer);
-                            currentResolve?.(parsed);
+                            const endIndex = buffer.indexOf(RESPONSE_DELIMITER);
+                            const responseStr = buffer.slice(0, endIndex);
+                            console.log('RESPONCE STR:', responseStr);
+                            const parsed = JSON.parse(responseStr);
+                            console.log('PARSED', parsed);
+                            const { data } = unwrapResponse(parsed);
+                            currentResolve?.(data);
                         } catch (err) {
                             currentReject?.(`Failed to parse JSON: ${err}`);
                         } finally {
@@ -89,6 +95,18 @@ function callBackend(commandId, extra) {
             reject('Failed to connect/send: ${err}');
         }
     });
+}
+
+function unwrapResponse(jsonObj) {
+    if (!jsonObj || typeof jsonObj !== 'object') {
+        throw new Error('Invalid input: Expected an object.');
+    }
+
+    const data = jsonObj.data ?? null;
+    const err_code = jsonObj.err_code ?? null;
+    const message = jsonObj.message ?? null;
+
+    return { data, err_code, message };
 }
 
 module.exports = { callBackend };
