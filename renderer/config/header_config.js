@@ -14,7 +14,7 @@ const headerConfig = {
         viewModes: [
             { icon: 'list-icon.svg', name: 'list' },
             { icon: 'grid-icon.svg', name: 'grid' },
-            { icon: 'calendar-icon.svg', name: 'calendar' }
+            // { icon: 'calendar-icon.svg', name: 'calendar' }
         ]
     },
     details : {
