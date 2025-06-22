@@ -1,5 +1,4 @@
 <div class="monitored-programs">
-    {% if monitoredProgramsReport is not empty %}
     <table>
         <colgroup>
             {% for header in tableHeaders %}
@@ -14,6 +13,7 @@
             </tr>
         </thead>
         <tbody>
+        {% if monitoredProgramsReport is not empty %}
             {% for program in monitoredProgramsReport %}
                 <tr>
                     {% for header in tableHeaders %}
@@ -40,9 +40,9 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
+        {% else %}
+        <p>No apps yet</p>
+        {% endif %}
         </tbody>
     </table>
-    {% else %}
-        <p>No monitored programs yet!</p>
-    {% endif %}
 </div>
