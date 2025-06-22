@@ -120,7 +120,7 @@ async function renderAndInitializePage(pageName, contextData) {
 
 async function fetchRenderAndInitializePage(pageName, contextData) {
     try {
-        contextData = await getProgramsData(contextData);
+        contextData = await getProgramsData(contextData, pageName);
         await renderAndInitializePage(pageName, contextData);
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -130,7 +130,13 @@ async function fetchRenderAndInitializePage(pageName, contextData) {
 }
 
 async function getProgramsData(contextData) {
-    const report = await window.api.getReport();
+    let report;
+    if (currentPage === 'homepage') {
+        report = await window.api.getAppsReport();
+    } else {
+        report = await window.api.getProcessesReport();
+    }
+
     const programsData = {
         monitoredPrograms: report,
     };

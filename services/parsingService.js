@@ -9,13 +9,13 @@ const { processParams } = require('../renderer/config/monitored_programms_config
 const PROCESS_ICONS_PATH = path.join(process.cwd(), 'Process_icons');
 const { ICON_PATH, ICON_EXTENSION } = require('./constants.js');
 
-const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Active for', 'System Start'];
-const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Active for', 'RAM', 'CPU', 'Active']
-const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Active for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
+const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Tracked for', 'System Start'];
+const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Tracked for', 'RAM', 'CPU', 'Active']
+const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Tracked for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
 function parseReport(report, paramNames = [], pageName = 'homepage', contextData = {}) {
 
-    const reportComponents = ['tracked', 'currently_active'];
+    const reportComponents = ['tracked', 'currently_active', 'apps'];
 
     let allParamNames;
     if (pageName === 'details') {
@@ -42,9 +42,9 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
             const flat = flattenObject(process);
 
             const filtered = allParamNames.reduce((acc, name) => {
-                if (name === 'Active for') {
+                if (name === 'Tracked for') {
                     if ('system_start' in process) {
-                        acc[name] = calculateActiveFor(process.system_start);
+                        acc[name] = calculateTrackedFor(process.system_start);
                     } else {
                         acc[name] = paramMap[name]?.placeholder || '—';
                     }
@@ -114,7 +114,7 @@ function flattenObject(obj, parentKey = '', result = {}) {
     return result;
 }
 
-function calculateActiveFor(startTime) {
+function calculateTrackedFor(startTime) {
     const currentTime = Date.now();
     const startTimeMs = startTime * 1000;
     const diffMs = currentTime - startTimeMs;

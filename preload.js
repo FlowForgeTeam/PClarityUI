@@ -43,8 +43,12 @@ contextBridge.exposeInMainWorld('api', {
         });
     },
 
-    getReport: async () => {
+    getProcessesReport: async () => {
         return await callBackend(0, {});
+    },
+
+    getAppsReport: async () => {
+        return await callBackend(7, {});
     },
 
     // Session data API
