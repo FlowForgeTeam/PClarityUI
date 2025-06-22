@@ -1,5 +1,5 @@
 const processParams = [
-    { name: 'Icon', value: 'icon', placeholder: '../renderer/assets/Process_icons/default.ico' },
+    { name: 'Icon', value: 'icon', placeholder: '../renderer/assets/icons/default.png' },
     { name: 'Name', value: 'data.product_name', placeholder: '—'},
     { name: 'Title', value: 'data.exe_name', placeholder: '—' },
     { name: 'Path', value: 'data.exe_path', placeholder: '—' },

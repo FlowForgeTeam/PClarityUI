@@ -9,9 +9,10 @@
                         <div class="app-icon-large">
                             {% if appData.Icon and appData.Icon != '💿' %}
                                 {% if appData.Icon starts with '../' %}
-                                    <img src="{{ appData.Icon }}" alt="{{ appData.Name }} icon" style="width: 100%; height: 100%; object-fit: contain;">
+                                    <img src="{{ appData.Icon }}" alt="{{ appData.Name }} icon" style="width: 100%; height: 100%; object-fit: contain;"
+                                    onerror="this.onerror=null;this.src='../renderer/assets/icons/default.png';" class="process-icon">
                                 {% else %}
-                                    {{ appData.Icon }}
+                                    💿
                                 {% endif %}
                             {% else %}
                                 {% include "../../assets/icons/process-icon.svg" %}
@@ -29,7 +30,7 @@
                             </div>
                             <div class="stat-summary-item">
                                 <div class="stat-label">RAM Usage</div>
-                                <div class="stat-value">{{ appData.RAM }}</div>
+                                <div class="stat-value">{{ (appData.RAM / 1000000)|round(2, 'common') }} MB</div>
                             </div>
                         </div>
                         
