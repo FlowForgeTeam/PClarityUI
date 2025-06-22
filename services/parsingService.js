@@ -9,9 +9,9 @@ const { processParams } = require('../renderer/config/monitored_programms_config
 const PROCESS_ICONS_PATH = path.join(process.cwd(), 'Process_icons');
 const { ICON_PATH, ICON_EXTENSION } = require('./constants.js');
 
-const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Tracked for', 'System Start'];
-const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Tracked for', 'RAM', 'CPU', 'Active']
-const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Tracked for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
+const homepageMandatoryParamNames = ['Icon', 'Name', 'Title', 'RAM', 'CPU', 'Monitored for'];
+const statisticsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Monitored for', 'RAM', 'CPU', 'Active']
+const detailsMandatoryParamNames = ['Icon', 'Name', 'Title', 'Path', 'Monitored for', 'RAM', 'PID', 'PPID', 'Threads', 'Priority', 'Base Priority', 'Affinity (Process)', 'Affinity (System)', 'CPU', 'Tracked', 'Active', 'Updated'];
 
 function parseReport(report, paramNames = [], pageName = 'homepage', contextData = {}) {
 
@@ -42,9 +42,9 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
             const flat = flattenObject(process);
 
             const filtered = allParamNames.reduce((acc, name) => {
-                if (name === 'Tracked for') {
+                if (name === 'Monitored for') {
                     if ('system_start' in process) {
-                        acc[name] = calculateTrackedFor(process.system_start);
+                        acc[name] = calculateMonitoredFor(process.system_start);
                     } else {
                         acc[name] = paramMap[name]?.placeholder || '—';
                     }
@@ -75,28 +75,6 @@ function parseReport(report, paramNames = [], pageName = 'homepage', contextData
     return {paramMap, parsedReport, appData};
 }
 
-function getProcessIcon(executableName) {
-    if (!executableName) {
-        return '💿'; // Default fallback
-    }
-
-    try {
-        // Remove .exe extension if present and add .ico
-        const iconName = executableName.replace(/\.exe$/i, '') + '.ico';
-        const iconPath = path.join(PROCESS_ICONS_PATH, iconName);
-        
-        if (fs.existsSync(iconPath)) {
-            // Return relative path for web use
-            return `../Process_icons/${iconName}`;
-        }
-        
-        // Fallback to emoji if no icon file found
-        return '💿';
-    } catch (error) {
-        console.error('Error checking for process icon:', error);
-        return '💿';
-    }
-}
 
 function flattenObject(obj, parentKey = '', result = {}) {
     for (const key in obj) {
@@ -114,7 +92,7 @@ function flattenObject(obj, parentKey = '', result = {}) {
     return result;
 }
 
-function calculateTrackedFor(startTime) {
+function calculateMonitoredFor(startTime) {
     const currentTime = Date.now();
     const startTimeMs = startTime * 1000;
     const diffMs = currentTime - startTimeMs;

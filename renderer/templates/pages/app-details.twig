@@ -30,7 +30,7 @@
                             </div>
                             <div class="stat-summary-item">
                                 <div class="stat-label">RAM Usage</div>
-                                <div class="stat-value">{{ (appData.RAM / 1000000)|round(2, 'common') }} MB</div>
+                                <div class="stat-value">{{ (appData.RAM / 1048576)|round(2, 'common') }} MB</div>
                             </div>
                         </div>
                         
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="usage-info">
                                     <div class="usage-label">Current RAM Usage</div>
-                                    <div class="usage-value">{{ appData.RAM }}</div>
+                                    <div class="usage-value">{{ (appData.RAM / 1048576)|round(2, 'common') }} MB</div>
                                 </div>
                             </div>
                             

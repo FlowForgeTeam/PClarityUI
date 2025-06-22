@@ -3,7 +3,7 @@ const processParams = [
     { name: 'Name', value: 'data.product_name', placeholder: '—'},
     { name: 'Title', value: 'data.exe_name', placeholder: '—' },
     { name: 'Path', value: 'data.exe_path', placeholder: '—' },
-    { name: 'Tracked for', value: 'trackedFor', placeholder: 'Inactive' },
+    { name: 'Monitored for', value: 'monitoredFor', placeholder: 'Inactive' },
     { name: 'RAM', value: 'data.ram_usage', placeholder: '0 ', unit: ' MB' },
     { name: 'PID', value: 'data.pid', placeholder: '—' },
     { name: 'PPID', value: 'data.ppid', placeholder: '—' },
